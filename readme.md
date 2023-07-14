@@ -25,4 +25,22 @@ Views are elements that display information to a client in a certain layout
 - image - Contains a `basic view` + and 1 image.
 - image.grid - Contains a `basic view` + 2 to 6 images.
 
+NP attributes defined in head follow the structure `name="np-{property}" content="{value}"`
+
+NP attributes defined in the body follow the structure `np-{property}={value}`
+
+
+#### Defining:
+Example for defining a global/fallback `title` in head
+```html
+<meta name="np-title" content="Title of this page">
+```
+
+Example for defining a `title` in body
+```html
+<div np-for="creator"
+     np-title="Title of this section">
+    ...
+</div>
+```
 
