@@ -44,3 +44,37 @@ Example for defining a `title` in body
 </div>
 ```
 
+An element in the body that declares a NP attribute is called a [node](#nodes) and a np attribute without the `np-for` attribute is an invalid node.
+
+## Nodes
+Nodes are elements defined by the `np-for` attribute and acts as a type of `key` or `response` to a client request.
+
+We define the nodes using `np-for` and its `view`.
+
+```html
+<main>
+    <h1>Guitar brands used by John Mayer</h1>
+
+    <article 
+    np-for="fender"
+    np-view="image.grid">
+        <img src="./img/jm_1.jpg" alt="jm_1">
+        <img src="./img/jm_2.jpg" alt="jm_2">
+        <img src="./img/jm_3.jpg" alt="jm_3">
+    </article>
+
+    <article 
+    np-for="Gibson"
+    np-view="basic">
+
+    ...
+    </article>
+
+    <article 
+    np-for="PSG"
+    np-view="article">
+
+    ...
+    </article>
+</main>
+```
