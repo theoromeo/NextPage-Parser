@@ -14,4 +14,15 @@ By default this will invoke a view to the client, The properties defined in the 
 
 if you want to display a icon other then the default favicon use the optional: `np-icon`.
 
+## Views
+NPP uses `views` as the way to display information to a client.
+
+### View Types
+Views are elements that display information to a client in a certain layout
+
+- basic - Contains a title, description and icon.
+- article - Contains a `basic view` + 1 to 3 paragraphs.
+- image - Contains a `basic view` + and 1 image.
+- image.grid - Contains a `basic view` + 2 to 6 images.
+
 
