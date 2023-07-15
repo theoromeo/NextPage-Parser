@@ -3,6 +3,8 @@
 
 Similar to Open Graph that allows a webpage to behave like an object with static information. NPP adds the ability for web pages to share information relative to each other.
 
+Using a client application that implements NPP like `mously.js` for the web, enables webpages to use NP Features.
+
 ## Basic Meta Tags
 To make a webpage Next Page compatible at the minimum you will need to add some basic meta tags.
 
