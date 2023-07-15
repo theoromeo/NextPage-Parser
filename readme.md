@@ -96,3 +96,30 @@ Information from the node
 <article np-view="image.grid" .../>
 3[img]
 ```
+
+## View Queries
+View queries are the way [views](#views) look for its data in a node.
+
+By default views will look at the children of its element to find its data.
+
+### Default view queries
+- article - will query for `"Element > p"` and retrieve the first 300 characters.
+
+- image - will query for `"Element > img"` and retrieve the first instance.
+
+- image.grid - will query for `"Element > img"` and retrieve the first 6 instances. if only one image is found the `image.grid view` will invoice the `image view`.
+
+
+- basic - Will look for `Information Properties` to find its data, if no property is defined in the node the head properties are used.
+
+### Defined view queries
+If you define [informational properties](#informational-properties) inside the node but outside its children nodes.
+
+- article - will query for `"Element [np-p]"` and retrieve the first 300 characters.
+
+- image - will query for `"Element [np-img]"` and retrieve the first instance.
+
+- image.grid - will query for `"Element [np-img]"` and retrieve the first 6 instances. if only one image is found the `image.grid view` will invoice the `image view`.
+
+
+- basic - Will look for [Information Properties](#informational-properties) to find its data, if no property is defined in the node the head properties are used.
