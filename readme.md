@@ -78,3 +78,21 @@ We define the nodes using `np-for` and its `view`.
     </article>
 </main>
 ```
+
+Now lets imagine we on the page of  another website that sells fender guitars (lets call it `Page:B`), and it references to the `fender` key on `Page:A`. 
+
+Without the user needing to click on a different website to get information a `grid view` will display on the current page with a image grid of guitars used by john mayer.
+
+Here is the list of tag that will be retrieved client side:
+Information from the head
+```html
+<meta name="np-description" ...>
+<link rel="icon" ... >
+```
+
+Information from the node
+
+```html
+<article np-view="image.grid" .../>
+3[img]
+```
