@@ -123,3 +123,94 @@ If you define [informational properties](#informational-properties) inside the n
 
 
 - basic - Will look for [Information Properties](#informational-properties) to find its data, if no property is defined in the node the head properties are used.
+
+
+## Informational Nodes
+Informational properties allow you to have control over the response data. 
+
+Maybe you want summarized data to display instead of the default paragraph in the node or you want a specific image to show up in the response, you can do that with informational properties
+
+### Informational Properties
+- `np-p` - define a paragraph for the node <br>
+When all declarations for the nodes are added it may be a maximum length of 300 characters.
+
+- `np-img` - define a image for the node <br>
+String URL
+
+- `np-action` - define a link for the node <br>
+String URL
+
+- `np-icon` - define a icon for the node <br>
+String URL
+
+- `np-description` - define a description for the node<br>
+Up to 100 characters.
+- `np-title` - define a title for the node <br>
+Up to 35 characters
+
+| Properties        |      Format   | 
+|-------------------|:--------------|
+| `np-p`            | String        | 
+| `np-img`          | URL           |
+| `np-action`       | Label:URL     |
+| `np-icon`         | URL           |
+| `np-description`  | String        |
+| `np-title`        | String        |
+
+Example defining images with the informational Property `np-img`
+```html
+<article 
+    np-for="fender"
+    np-view="image">
+
+    <h1>John Mayer W/ Fender</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
+
+    <a href="./gallery/johnmayer" class="img">
+
+        <img np-img="./img/jm_1jpg" 
+             src="./img/jm_1jpg" 
+             alt="jm_1">
+    </a>
+</article>
+```
+
+Adding a custom title & description to the node
+```html
+<article 
+    np-for="fender"
+    np-view="image"
+    np-title="John Mayer with a Strater caster"
+    np-description="John Mayer playing Strater caster at the manhaten stadium.">
+
+    <h1>John Mayer W/ Fender</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
+
+    <a href="./gallery/johnmayer" class="img">
+
+        <img np-img="./img/jm_1jpg" 
+             src="./img/jm_1jpg" 
+             alt="jm_1">
+    </a>
+</article>
+```
+
+### Properties as tags
+you can add the attributes  without defining its value on an elements and the elements will serve as its value.
+
+For Example with `np-title`, `np-description` and `np-img`
+
+```html
+<article 
+    np-for="fender"
+    np-view="image">
+
+    <h1 np-title>John Mayer W/ Fender</h1>
+    <p np-description>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
+
+
+    <a href="./gallery/johnmayer" class="img">
+        <img np-img src="./img/jm_1jpg" alt="jm_1">
+    </a>
+</article>
+```
