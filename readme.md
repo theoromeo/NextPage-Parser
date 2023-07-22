@@ -202,6 +202,9 @@ Up to 35 characters
 | `np-description`  | String        |
 | `np-title`        | String        |
 
+> ❕ **Note:**<br>
+Nodes only invoke informational properties where the properties immediate parent node is itself.
+
 Example defining images with the informational Property `np-img`
 ```html
 <article 
@@ -259,3 +262,11 @@ For Example with `np-title`, `np-description` and `np-img`
     </a>
 </article>
 ```
+
+### Property Priority
+
+1. Properties defined `on` the root node,(in the save element where the node is declared) will have highest priority.
+
+2. Properties defined `in` the root but outside any other node.
+
+
