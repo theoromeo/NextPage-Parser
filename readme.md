@@ -12,9 +12,10 @@ To make a webpage Next Page compatible at the minimum you will need to add some 
 - `np-description` - Description for the view<br>
 
 
-By default this will invoke a view to the client, The properties defined in the head of the document including the `"<link rel="icon" ... >"` will act as fall-back values to more specific nodes.
+By default this will invoke a [base view](#views) to the client, the simplest [view type](#view-types). The properties defined in the head of the document including the `"<link rel="icon" ... >"` will act as fall-back values to more specific [nodes](#nodes).
 
-if you want to display a icon other then the default favicon use the optional: `np-icon`.
+If you want to display a icon other then the default favicon use the optional: <br>
+[np-icon](#informational-nodes) property.
 
 ## Views
 NPP uses `views` as the way to display information to a client.
