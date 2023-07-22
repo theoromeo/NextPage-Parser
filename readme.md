@@ -269,4 +269,14 @@ For Example with `np-title`, `np-description` and `np-img`
 
 2. Properties defined `in` the root but outside any other node.
 
+## Implementation
+We provide parsers in different languages and hope you build cool tools with it!
+
+- `NPP w/ js|ts` <sub>(NA)</sub>
+- `NPP w/ PHP` <sub>(NA)</sub>
+- `NPP Java` <sub>(NA)</sub>
+- `NPP C++` <sub>(NA)</sub>
+
+### Recommended NPP web Client
+- `Mously.js` <sub>(NA)</sub>
 
