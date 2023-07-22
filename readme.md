@@ -20,24 +20,27 @@ If you want to display a icon other then the default favicon use the optional: <
 ## Views
 NPP uses `views` as the way to display information to a client.
 
+> ❕**NOTE:** <br>
+How views are implemented depends on the client you use.
+
 ### View Types
-Views are elements that display information to a client in a certain layout
+Views are elements that display information to a client in a certain layout.
 
 - basic - Contains a title, description and icon.
 - article - Contains a `basic view` + 1 to 3 paragraphs.
 - image - Contains a `basic view` + and 1 image.
 - image.grid - Contains a `basic view` + 2 to 6 images.
 
+#### Properties defined in head
 NP attributes defined in head follow the structure `name="np-{property}" content="{value}"`
 
-NP attributes defined in the body follow the structure `np-{property}={value}`
-
-
-#### Defining:
 Example for defining a global/fallback `title` in head
 ```html
 <meta name="np-title" content="Title of this page">
 ```
+
+#### Properties defined in body
+NP attributes defined in the body follow the structure `np-{property}={value}`
 
 Example for defining a `title` in body
 ```html
@@ -46,8 +49,7 @@ Example for defining a `title` in body
     ...
 </div>
 ```
-
-An element in the body that declares a NP attribute is called a [node](#nodes) and a np attribute without the `np-for` attribute is an invalid node.
+An element in the body that declares a NP attribute is called a [node](#nodes). an element that declares a np attribute without the `np-for` attribute is an invalid node and will need the `np-for` attribute to make it a valid. We'll cover this in the next section.
 
 ## Nodes
 Nodes are elements defined by the `np-for` attribute and acts as a type of `key` or `response` to a client request.
