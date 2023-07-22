@@ -140,6 +140,35 @@ If you define [informational properties](#informational-properties) inside the n
 
 - basic - Will look for [Information Properties](#informational-properties) to find its data, if no property is defined in the node the head properties are used.
 
+### Custom view queries
+If your data is stored in a different structure you can define your own queries using the query syntax in the `np-view` attribute.
+```html
+<article 
+    np-for="fender"
+    np-view="image.gird > a > img">
+
+    <h1>John Mayer W/ Fender</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
+
+    <a href="./gallery/johnmayer" class="img">
+        <img src="./img/jm_1.jpg" alt="johnmayer_1">
+    </a>
+     <a href="./gallery/johnmayer" class="img">
+        <img src="./img/jm_2.jpg" alt="johnmayer_2">
+    </a>
+     <a href="./gallery/johnmayer" class="img">
+        <img src="./img/jm_3.jpg" alt="johnmayer_3">
+    </a>
+</article>
+```
+
+The will define a `image.grid view` and query agents its node with `"> a > img"`
+
+### Query Priority
+1. Custom view query
+2. Defined view query
+3. Default view query
+
 
 ## Informational Nodes
 Informational properties allow you to have control over the response data. 
