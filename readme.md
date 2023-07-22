@@ -54,6 +54,16 @@ An element in the body that declares a NP attribute is called a [node](#nodes). 
 ## Nodes
 Nodes are elements defined by the `np-for` attribute and acts as a type of `key` or `response` to a client request.
 
+#### About the np-for attribute
+>Values for the `np-for` lookup is case-insensitive.
+
+>`np-for` values can only contain `1 key` and spaces are not allowed.
+
+### Defining a few Nodes
+Lets imagine we on a page of an artist encyclopedia type website that contains information about John Mayer. (lets call it `Page:A`)
+
+On the page there is a section on the deferent guitar brands he has used and some information relative to that brand and John Mayer.
+
 We define the nodes using `np-for` and its `view`.
 
 ```html
@@ -83,13 +93,14 @@ We define the nodes using `np-for` and its `view`.
     </article>
 </main>
 ```
-
+#### Client Requests
 Now lets imagine we on the page of  another website that sells fender guitars (lets call it `Page:B`), and it references to the `fender` key on `Page:A`. 
 
 Without the user needing to click on a different website to get information a `grid view` will display on the current page with a image grid of guitars used by john mayer.
 
 Here is the list of tag that will be retrieved client side:
-Information from the head
+Information from the head.
+
 ```html
 <meta name="np-description" ...>
 <link rel="icon" ... >
