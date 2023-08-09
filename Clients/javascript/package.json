@@ -3,8 +3,9 @@
   "version": "0.0.01",
   "description": "The Next Page Protocol (NPP) enables web pages to have a richer and more dynamic navigation experience allowing web pages to communicate relevant information according to a pages context.",
   "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "scripts": 
+  {  
+    "test": "jest"
   },
   "keywords": [],
   "author": "",
