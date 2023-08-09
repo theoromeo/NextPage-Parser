@@ -1,16 +1,19 @@
 {
   "name": "next-page-protocol",
   "version": "0.0.01",
+  "type": "module",
   "description": "The Next Page Protocol (NPP) enables web pages to have a richer and more dynamic navigation experience allowing web pages to communicate relevant information according to a pages context.",
   "main": "src/index.js",
-  "scripts": 
-  {  
-    "test": "jest"
+  "scripts": {
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "xmldom-qsa": "^1.1.3"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }
