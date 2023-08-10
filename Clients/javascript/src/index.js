@@ -1,5 +1,44 @@
 export default class NextPage
 {
+
+    /**
+     * 
+     * @param {URL} url - URL of webpage to retrieve.
+     * @param {String} key - Node to look for on webpage
+     * @returns 
+     */
+    async get(url,key)
+    {
+        let webpageResponse = await this.getWebpage(url)
+
+        if(webpageResponse instanceof Number)
+        return -1
+
+        const webpageDOM = this.toDOM(webpageResponse)
+
+        if(webpageDOM instanceof Number)
+        return -2
+
+
+    }
+
+    /**
+     * Convert HTML string to DOM object
+     * 
+     * @param {String} HTML - String of html
+     * @returns {(Object|Number)}
+     * - Document Object
+     * - -1 if parsing error
+     */
+    toDOM(HTML)
+    {
+        const page = new DOMParser().parseFromString(html,'text/xml')
+
+        if(!page)
+        return -1
+
+        return page
+    }
     
    /**
      * Gets Webpage for parsing.
