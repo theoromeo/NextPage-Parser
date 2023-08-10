@@ -23,6 +23,11 @@ export default class NextPage
 
         const node = this.getNode(webpageDOM,key)
 
+        if(node instanceof Number)
+        return -3
+
+        
+
 
     }
 
