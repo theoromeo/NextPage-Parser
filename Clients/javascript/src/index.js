@@ -2,6 +2,7 @@ export default class NextPage
 {
 
     /**
+     * Get node from webpage.
      * 
      * @param {URL} url - URL of webpage to retrieve.
      * @param {String} key - Node to look for on webpage
