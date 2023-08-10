@@ -45,6 +45,16 @@ export default class NextPage
         return page
     }
 
+
+    /**
+     * Gets defined node from DOM.
+     * 
+     * @param {Document} dom - Document of parsed webpage.
+     * @param {String} key - Node lookup string for 'np-for' property.
+     * @returns {(Node|Number)}
+     * - Node if node found
+     * - -1 if node not found
+     */
     getNode(dom,key)
     {
         let node = dom.querySelectorAll(`[np-for="${key}"]`)
@@ -59,6 +69,10 @@ export default class NextPage
 
     }
 
+    /**
+     * @param {Node} node 
+     * @return {Node} - cleared root node
+     */
     removeChildNodes(node)
     {
         let children = node.querySelectorAll(`[${Definitions.for}]`)
