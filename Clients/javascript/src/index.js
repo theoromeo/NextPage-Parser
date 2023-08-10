@@ -1,5 +1,6 @@
 export default class NextPage
 {
+    
    /**
      * Gets Webpage for parsing.
      * 
@@ -9,26 +10,26 @@ export default class NextPage
      * - -1 if fetch error, 
      * - -2 if connection error.
      */
-   async getWebpage(url)
-   {
-       let webpageResponse = null;
-       
-       try 
-       {
-           const request = await fetch(url)
+    async getWebpage(url)
+    {
+        let webpageResponse = null;
+        
+        try 
+        {
+            const request = await fetch(url)
 
-           if(!request.ok)
-           {
-               return -2;
-           }
+            if(!request.ok)
+            {
+                return -2;
+            }
 
-           webpageResponse = await request.text()
-       } 
-       catch (error) 
-       {
-           return -1
-       }
+            webpageResponse = await request.text()
+        } 
+        catch (error) 
+        {
+            return -1
+        }
 
-       return webpageResponse;
-   }
+        return webpageResponse;
+    }
 }
