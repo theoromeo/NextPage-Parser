@@ -1,3 +1,4 @@
+import Definitions from "./util/Definitions.js"
 export default class NextPage
 {
 
@@ -20,8 +21,11 @@ export default class NextPage
         if(webpageDOM instanceof Number)
         return -2
 
+        const node = this.getNode(webpageDOM,key)
+
 
     }
+
 
     /**
      * Convert HTML string to DOM object
@@ -39,6 +43,31 @@ export default class NextPage
         return -1
 
         return page
+    }
+
+    getNode(dom,key)
+    {
+        let node = dom.querySelectorAll(`[np-for="${key}"]`)
+
+        if(node.length == 0)
+        return -1
+
+        if(node.length > 1)
+        console.warn(`More then 1 node found with np-for="${key}" using first instance.`)
+
+        return this.removeChildNodes(node[0])
+
+    }
+
+    removeChildNodes(node)
+    {
+        let children = node.querySelectorAll(`[${Definitions.for}]`)
+
+        children.forEach(subNode => {
+            node.removeChild(subNode)
+        });
+
+        return node
     }
     
    /**
