@@ -1,5 +1,5 @@
-# <img src="./icon.png" width="120"> <br>NXTPG Protocol 
-`The Next Page Protocol` (NPP) enables web pages to have a richer and more dynamic navigation experience allowing web pages to communicate relevant information according to a pages context.
+# <img src="./icon.png" width="120"> <br>Next Page Protocol 
+The `Next Page Protocol` (NPP) enables web pages to have a richer and more dynamic navigation experience allowing web pages to communicate relevant information according to a pages context.
 
 Similar to Open Graph that allows a webpage to behave like an object with static information. NPP adds the ability for web pages to share information relative to each other.
 
@@ -49,7 +49,7 @@ Example for defining a `title` in body
     ...
 </div>
 ```
-An element in the body that declares a NP attribute is called a [node](#nodes). an element that declares a np attribute without the `np-for` attribute is an invalid node and will need the `np-for` attribute to make it a valid. We'll cover this in the next section.
+An element in the body that declares a NP attribute is called a [node](#nodes). an element that declares a np attribute without the `np-for` attribute is an invalid node and will need the `np-for` attribute to make it valid. We'll cover this in the next section.
 
 ## Nodes
 Nodes are elements defined by the `np-for` attribute and acts as a type of `key` or `response` to a client request.
@@ -98,11 +98,12 @@ Now lets imagine we on the page of  another website that sells fender guitars (l
 
 Without the user needing to click on a different website to get information a `grid view` will display on the current page with a image grid of guitars used by john mayer.
 
-Here is the list of tag that will be retrieved client side:
+Here is the list of tags that will be retrieved client side:
 Information from the head.
 
 ```html
 <meta name="np-description" ...>
+<meta name="np-title" ...>
 <link rel="icon" ... >
 ```
 
@@ -162,7 +163,7 @@ If your data is stored in a different structure you can define your own queries 
 </article>
 ```
 
-The will define a `image.grid view` and query agents its node with `"> a > img"`
+The will define a `image.grid view` and query against its node with `"> a > img"`
 
 ### Query Priority
 1. Custom view query
@@ -216,8 +217,8 @@ Example defining images with the informational Property `np-img`
 
     <a href="./gallery/johnmayer" class="img">
 
-        <img np-img="./img/jm_1jpg" 
-             src="./img/jm_1jpg" 
+        <img np-img="./img/jm_1.jpg" 
+             src="./img/jm_1.jpg" 
              alt="jm_1">
     </a>
 </article>
@@ -236,15 +237,15 @@ Adding a custom title & description to the node
 
     <a href="./gallery/johnmayer" class="img">
 
-        <img np-img="./img/jm_1jpg" 
-             src="./img/jm_1jpg" 
+        <img np-img="./img/jm_1.jpg" 
+             src="./img/jm_1.jpg" 
              alt="jm_1">
     </a>
 </article>
 ```
 
 ### Properties as tags
-you can add the attributes  without defining its value on an elements and the elements will serve as its value.
+You can add informational properties to elements without defining its value and the elements value will be used.
 
 For Example with `np-title`, `np-description` and `np-img`
 
@@ -265,7 +266,7 @@ For Example with `np-title`, `np-description` and `np-img`
 
 ### Property Priority
 
-1. Properties defined `on` the root node,(in the save element where the node is declared) will have highest priority.
+1. Properties defined `on` the root node,(in the same element where the node is declared) will have highest priority.
 
 2. Properties defined `in` the root but outside any other node.
 
