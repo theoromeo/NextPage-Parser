@@ -1,4 +1,7 @@
 import Definitions from "./util/Definitions.js"
+import Informational from "./util/Informational.js"
+import { DOMParser , XMLSerializer } from 'xmldom-qsa'
+import ViewTypes from "./util/ViewTypes.js"
 export default class NextPage
 {
 
@@ -26,21 +29,124 @@ export default class NextPage
         if(node instanceof Number)
         return -3
 
+
+        const viewInformation = this.getViewInformation(node)
+
+        if(viewInformation instanceof Number)
+        return -4
+
+        
+
+        
         
 
 
     }
 
+    /**
+     * @param {Node} node - Root node
+     * @returns {(object|Number)}
+     * - object {type,query}
+     * - -1 No view defined on node
+     * - -2 Type not valid
+     */
+    getViewInformation(node)
+    {
+        let viewProperty = node.getAttribute(Definitions.view)
+
+        if(!viewProperty)
+        return -1
+
+        let type = this.getViewType(viewProperty)
+
+        if(!type)
+        return -2
+
+        let query = this.getViewQuery(viewProperty,node)
+
+        return {
+            type:type,
+            query: query
+        }
+    }
+
+
+    /**
+     * Returns the type of query to execute
+     * 
+     * @param {String} viewProperty - View property value
+     * @param {Node} node - Node
+     * @returns {(String)}
+     * - String Query string
+     * - 'tag' if node uses tags
+     */
+    getViewQuery(viewProperty,node)
+    {   
+        let query = ''
+
+        // Custom query
+        if(viewProperty.includes('>'))
+            return viewProperty.replace('>',":")[1].trim()
+
+        query = this.isViewQueryTagged(viewProperty.trim(),node)
+
+        if(query)
+            return "tag"
+
+        // Get default query 
+        return ViewTypes[viewProperty.trim()].default
+        
+
+    }
+
+    /**
+     * Returns true if node defines properties by tag
+     * 
+     * @param {String} type - View type
+     * @param {Node} node - Node
+     * 
+     * @returns {Boolean}
+     */
+    isViewQueryTagged(type,node)
+    {
+        let result = ViewTypes[type].tagged(node)
+
+        if(!result)
+            return false
+
+        return result
+    }
+
+    /**
+     * @param {String} value - string to test
+     * @returns {(String|Boolean)}
+     * - string if valid type
+     * - false if invalid
+     */
+    getViewType(value)
+    {
+        let type = value.trim()
+
+        if(value.includes(">"))
+            type = value.split('>')[0].trim()
+
+        if(ViewTypes[type])
+            return type.trim()
+
+        return false
+    }   
+
+
 
     /**
      * Convert HTML string to DOM object
      * 
-     * @param {String} HTML - String of html
+     * @param {String} html - String of html
      * @returns {(Object|Number)}
      * - Document Object
      * - -1 if parsing error
      */
-    toDOM(HTML)
+    toDOM(html)
     {
         const page = new DOMParser().parseFromString(html,'text/xml')
 
