@@ -46,5 +46,18 @@ it("Get View Information" , async () =>
     expect(info.type).toContain("image.grid")
 })
 
+it("Get View Query" , async () => 
+{
+    const NP = new NextPage()
+    const page = await NP.getWebpage("johnmayer.html")
+    const dom = await NP.toDOM(page)
+    const node = NP.getNode(dom,"ibanez")
+
+    const info = NP.getViewInformation(node)
+    
+
+    expect(info).toContain("img:nth-child(-n+6)")
+})
+
 
 
