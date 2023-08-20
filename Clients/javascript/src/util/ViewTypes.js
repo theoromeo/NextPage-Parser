@@ -30,7 +30,12 @@ const ViewTypes =
         "tagged":
         function(node)
         {
-            return node.querySelectorAll(`[${Informational.p}]`)
+            const result = node.querySelectorAll(`[${Informational.p}]`)
+
+            if(result.length == 0)
+            return false
+
+            return result
         },
     },
 
@@ -41,7 +46,11 @@ const ViewTypes =
         "tagged":
         function(node)
         {
-            return node.querySelector(`[${Informational.image}]`)
+            const result = node.querySelector(`[${Informational.image}]`)
+            if(!result)
+            return false
+
+            return result
         },
     },
 
