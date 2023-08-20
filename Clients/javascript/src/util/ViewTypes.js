@@ -1,9 +1,14 @@
 import Informational from "./Informational.js"
+
+/**
+ * Holds the default query strings and function for retrieving 
+ * tagged defined values for each view type.
+ */
 const ViewTypes = 
 {
-    "basic": 
+    "basic":
     {
-        "default":null,
+        "default":false,
 
         "tagged":
         function(node)
@@ -16,24 +21,23 @@ const ViewTypes =
 
             return false
         }
-
     },
 
-    "article": 
+    "article":
     {
-        "default":'p',
+        "default":"p",
 
         "tagged":
         function(node)
         {
             return node.querySelectorAll(`[${Informational.p}]`)
-
         },
     },
 
-    "image": 
+    "image":
     {
-        "default":'img:first-of-type',
+        "default":"img:first-of-type",
+
         "tagged":
         function(node)
         {
@@ -41,9 +45,10 @@ const ViewTypes =
         },
     },
 
-    "image.grid": 
+    "image.grid":
     {
-        "default":'img:nth-child(-n+6)',
+        "default":"img:nth-child(-n+6)",
+
         "tagged":
         function(node)
         {
@@ -55,7 +60,8 @@ const ViewTypes =
             return elements
 
         }
-    }
+    },
+
 }
 
 export default ViewTypes;
