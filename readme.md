@@ -1,20 +1,20 @@
-# <img src="./icon.png" width="120"> <br>Next Page Protocol 
-The `Next Page Protocol` (NPP) enables web pages to have a richer and more dynamic navigation experience allowing web pages to communicate relevant information according to a pages context.
+# <img src="./icon.png" width="120"> <br>Next Page Protocol
 
-Similar to Open Graph that allows a webpage to behave like an object with static information. NPP adds the ability for web pages to share information relative to each other.
+The **Next Page Protocol** (NPP) enables web pages to have a richer and more dynamic navigation experience, allowing them to communicate relevant information based on the page's context.
 
-Using a client application that implements NPP like `mously.js` for the web, enables webpages to use NP Features.
+Similar to Open Graph, which allows a webpage to behave like an object with static information, NPP adds the ability for web pages to share information relative to each other.
+
+Using a client application that implements NPP, such as `mously.js` for the web, enables webpages to use NP Features.
 
 ## Basic Meta Tags
-To make a webpage Next Page compatible at the minimum you will need to add some basic meta tags.
+To make a webpage Next Page compatible, at a minimum, you will need to add some basic meta tags.
 
 - `np-title` - Title for the view
 - `np-description` - Description for the view<br>
 
+By default, this will invoke a [base view](#views) to the client, the simplest [view type](#view-types). The properties defined in the head of the document, including the `"<link rel="icon" ... >"`, will act as fallback values to more specific [nodes](#nodes).
 
-By default this will invoke a [base view](#views) to the client, the simplest [view type](#view-types). The properties defined in the head of the document including the `"<link rel="icon" ... >"` will act as fall-back values to more specific [nodes](#nodes).
-
-If you want to display a icon other then the default favicon use the optional: <br>
+If you want to display an icon other than the default favicon, use the optional: <br>
 [np-icon](#informational-nodes) property.
 
 ## Views
@@ -26,13 +26,13 @@ How views are implemented depends on the client you use.
 ### View Types
 Views are elements that display information to a client in a certain layout.
 
-- basic - Contains a title, description and icon.
+- basic - Contains a title, description, and icon.
 - article - Contains a `basic view` + 1 to 3 paragraphs.
-- image - Contains a `basic view` + and 1 image.
+- image - Contains a `basic view` + 1 image.
 - image.grid - Contains a `basic view` + 2 to 6 images.
 
 #### Properties defined in head
-NP attributes defined in head follow the structure `name="np-{property}" content="{value}"`
+NP attributes defined in the head follow the structure `name="np-{property}" content="{value}"`
 
 Example for defining a global/fallback `title` in head
 ```html
@@ -49,20 +49,20 @@ Example for defining a `title` in body
     ...
 </div>
 ```
-An element in the body that declares a NP attribute is called a [node](#nodes). an element that declares a np attribute without the `np-for` attribute is an invalid node and will need the `np-for` attribute to make it valid. We'll cover this in the next section.
+An element in the body that declares an NP attribute is called a [node](#nodes). An element that declares an np attribute without the `np-for` attribute is an invalid node and will need the `np-for` attribute to make it valid. We'll cover this in the next section.
 
 ## Nodes
-Nodes are elements defined by the `np-for` attribute and acts as a type of `key` or `response` to a client request.
+Nodes are elements defined by the `np-for` attribute and act as a type of `key` or `response` to a client request.
 
 #### About the np-for attribute
->Values for the `np-for` lookup is case-insensitive.
+>Values for the `np-for` lookup are case-insensitive.
 
->`np-for` values can only contain `1 key` and spaces are not allowed.
+>`np-for` values can only contain `1 key`, and spaces are not allowed.
 
 ### Defining a few Nodes
-Lets imagine we on a page of an artist encyclopedia type website that contains information about John Mayer. (lets call it `Page:A`)
+Let's imagine we are on a page of an artist encyclopedia-type website that contains information about John Mayer (let's call it `Page:A`).
 
-On the page there is a section on the deferent guitar brands he has used and some information relative to that brand and John Mayer.
+On the page, there is a section on the different guitar brands he has used and some information relative to that brand and John Mayer.
 
 We define the nodes using `np-for` and its `view`.
 
@@ -94,11 +94,11 @@ We define the nodes using `np-for` and its `view`.
 </main>
 ```
 #### Client Requests
-Now lets imagine we on the page of  another website that sells fender guitars (lets call it `Page:B`), and it references to the `fender` key on `Page:A`. 
+Now let's imagine we are on the page of another website that sells Fender guitars (let's call it `Page:B`), and it references the `fender` key on `Page:A`. 
 
-Without the user needing to click on a different website to get information a `grid view` will display on the current page with a image grid of guitars used by john mayer.
+Without the user needing to click on a different website to get information, a `grid view` will display on the current page with an image grid of guitars used by John Mayer.
 
-Here is the list of tags that will be retrieved client side:
+Here is the list of tags that will be retrieved client-side:
 Information from the head.
 
 ```html
@@ -115,19 +115,18 @@ Information from the node
 ```
 
 ## View Queries
-View queries are the way [views](#views) look for its data in a node.
+View queries are the way [views](#views) look for their data in a node.
 
-By default views will look at the children of its element to find its data.
+By default, views will look at the children of their element to find their data.
 
 ### Default view queries
 - article - will query for `"Element > p"` and retrieve the first 300 characters.
 
 - image - will query for `"Element > img"` and retrieve the first instance.
 
-- image.grid - will query for `"Element > img"` and retrieve the first 6 instances. if only one image is found the `image.grid view` will invoice the `image view`.
+- image.grid - will query for `"Element > img"` and retrieve the first 6 instances. if only one image is found, the `image.grid view` will invoke the `image view`.
 
-
-- basic - Will look for `Information Properties` to find its data, if no property is defined in the node the head properties are used.
+- basic - Will look for `Information Properties` to find its data; if no property is defined in the node, the head properties are used.
 
 ### Defined view queries
 If you define [informational properties](#informational-properties) inside the node but outside its children nodes.
@@ -136,13 +135,12 @@ If you define [informational properties](#informational-properties) inside the n
 
 - image - will query for `"Element [np-img]"` and retrieve the first instance.
 
-- image.grid - will query for `"Element [np-img]"` and retrieve the first 6 instances. if only one image is found the `image.grid view` will invoice the `image view`.
+- image.grid - will query for `"Element [np-img]"` and retrieve the first 6 instances. if only one image is found, the `image.grid view` will invoke the `image view`.
 
-
-- basic - Will look for [Information Properties](#informational-properties) to find its data, if no property is defined in the node the head properties are used.
+- basic - Will look for [Information Properties](#informational-properties) to find its data; if no property is defined in the node, the head properties are used.
 
 ### Custom view queries
-If your data is stored in a different structure you can define your own queries using the query syntax in the `np-view` attribute.
+If your data is stored in a different structure, you can define your own queries using the query syntax in the `np-view` attribute.
 ```html
 <article 
     np-for="fender"
@@ -163,30 +161,29 @@ If your data is stored in a different structure you can define your own queries 
 </article>
 ```
 
-The will define a `image.grid view` and query against its node with `"> a > img"`
+This will define an `image.grid view` and query against its node with `"> a > img"`
 
 ### Query Priority
 1. Custom view query
 2. Defined view query
 3. Default view query
 
-
 ## Informational Nodes
 Informational properties allow you to have control over the response data. 
 
-Maybe you want summarized data to display instead of the default paragraph in the node or you want a specific image to show up in the response, you can do that with informational properties
+Maybe you want summarized data to display instead of the default paragraph in the node, or you want a specific image to show up in the response; you can do that with informational properties.
 
 ### Informational Properties
 - `np-p` - define a paragraph for the node <br>
-When all declarations for the nodes are added it may be a maximum length of 300 characters.
+When all declarations for the nodes are added, it may be a maximum length of 300 characters.
 
-- `np-img` - define a image for the node <br>
+- `np-img` - define an image for the node <br>
 String URL
 
 - `np-action` - define a link for the node <br>
 String URL
 
-- `np-icon` - define a icon for the node <br>
+- `np-icon` - define an icon for the node <br>
 String URL
 
 - `np-description` - define a description for the node<br>
@@ -204,9 +201,9 @@ Up to 35 characters
 | `np-title`        | String        |
 
 > ❕ **Note:**<br>
-Nodes only invoke informational properties where the properties immediate parent node is itself.
+Nodes only invoke informational properties where the property's immediate parent node is itself.
 
-Example defining images with the informational Property `np-img`
+Example of defining images with the informational Property `np-img`
 ```html
 <article 
     np-for="fender"
@@ -229,8 +226,8 @@ Adding a custom title & description to the node
 <article 
     np-for="fender"
     np-view="image"
-    np-title="John Mayer with a Strater caster"
-    np-description="John Mayer playing Strater caster at the manhaten stadium.">
+    np-title="John Mayer with a Stratocaster"
+    np-description="John Mayer playing Stratocaster at the Manhattan stadium.">
 
     <h1>John Mayer W/ Fender</h1>
     <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
@@ -245,9 +242,9 @@ Adding a custom title & description to the node
 ```
 
 ### Properties as tags
-You can add informational properties to elements without defining its value and the elements value will be used.
+You can add informational properties to elements without defining their value, and the element's value will be used.
 
-For Example with `np-title`, `np-description` and `np-img`
+For Example with `np-title`, `np-description`, and `np-img`
 
 ```html
 <article 
@@ -266,12 +263,12 @@ For Example with `np-title`, `np-description` and `np-img`
 
 ### Property Priority
 
-1. Properties defined `on` the root node,(in the same element where the node is declared) will have highest priority.
+1. Properties defined `on` the root node (in the same element where the node is declared) will have the highest priority.
 
 2. Properties defined `in` the root but outside any other node.
 
 ## Implementation
-We provide parsers in different languages and hope you build cool tools with it!
+We provide parsers in different languages and hope you build cool tools with them! 
 
 - `NPP w/ js|ts` <sub>(NA)</sub>
 - `NPP w/ PHP` <sub>(NA)</sub>
@@ -281,3 +278,4 @@ We provide parsers in different languages and hope you build cool tools with it!
 ### Recommended NPP web Client
 - `Mously.js` <sub>(NA)</sub>
 
+Happy navigating! 
