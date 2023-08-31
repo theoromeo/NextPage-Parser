@@ -1,4 +1,6 @@
 import Informational from "./Informational.js"
+import { DOMParser , XMLSerializer } from 'xmldom-qsa'
+
 
 /**
  * Holds the default query strings and function for retrieving 
@@ -13,13 +15,33 @@ const ViewTypes =
         "tagged":
         function(node)
         {
-            let title = node.querySelectorAll(`[${Informational.title}]`)
-            let description = node.querySelectorAll(`[${Informational.description}]`)
+            let result = 
+            {
+                title:"",
+                description:""
+            }
+            
+            const elementTitle = node.querySelector(`[${Informational.title}]`)
+            const elementDescription = node.querySelector(`[${Informational.description}]`)
 
-            if(title && description)
-                return [title,description]
-
+            if(!elementTitle || !elementDescription)
             return false
+
+            const attributeTitle = elementTitle.getAttribute(Informational.title)
+            const attributeDescription = elementDescription.getAttribute(Informational.description)
+
+            if(attributeTitle != Informational.title)
+            result.title = attributeTitle
+            else
+            result.title = elementTitle.textContent
+
+            if(attributeDescription != Informational.description)
+            result.description = attributeDescription
+            else
+            result.description = elementDescription.textContent
+
+            return result
+        
         }
     },
 
@@ -30,10 +52,27 @@ const ViewTypes =
         "tagged":
         function(node)
         {
-            const result = node.querySelectorAll(`[${Informational.p}]`)
+            let result = "";
+            const elements = node.querySelectorAll(`[${Informational.p}]`)
 
-            if(result.length == 0)
+            if(elements.length == 0)
             return false
+
+            elements.forEach(element => 
+            {
+                attributeValue = element.getAttribute(Informational.p)
+                elementValue = element.textContent
+
+                if(attributeValue != Informational.p)
+                result += attributeValue + "<br>"
+                
+                else if(elementValue)
+                result += elementValue + "<br>"
+
+            });
+
+            // Remove trailing "<br>"
+            result = result.slice(0,result.length-4)
 
             return result
         },
@@ -46,11 +85,21 @@ const ViewTypes =
         "tagged":
         function(node)
         {
-            const result = node.querySelector(`[${Informational.image}]`)
-            if(!result)
+            const element = node.querySelector(`[${Informational.img}]`)
+
+            if(!element)
             return false
 
-            return result
+            const attributeValue = element.getAttribute(Informational.img)
+            const elementValue = element.getAttribute('src')
+
+            if(attributeValue != Informational.img)
+            return attributeValue
+
+            if(elementValue)
+            return elementValue
+
+            return false
         },
     },
 
@@ -61,12 +110,26 @@ const ViewTypes =
         "tagged":
         function(node)
         {
-            let elements = node.querySelectorAll(`[${Informational.image}]`).slice(0,6)
+            let result = []
+            let elements = node.querySelectorAll(`[${Informational.img}]`).slice(0,6)
 
             if(elements.length <1)
-                return false
+            return false
 
-            return elements
+            elements.forEach(element => 
+            {
+                let elementValue = element.getAttribute('src')
+                let attributeValue = element.getAttribute(Informational.img)
+
+                if(attributeValue != Informational.img)
+                result.push(attributeValue)
+
+                else if(elementValue)
+                result.push(elementValue)
+            
+            });
+
+            return result
 
         }
     },
