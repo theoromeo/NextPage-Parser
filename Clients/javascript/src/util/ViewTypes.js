@@ -60,8 +60,8 @@ const ViewTypes =
 
             elements.forEach(element => 
             {
-                attributeValue = element.getAttribute(Informational.p)
-                elementValue = element.textContent
+                let attributeValue = element.getAttribute(Informational.p)
+                let elementValue = element.textContent
 
                 if(attributeValue != Informational.p)
                 result += attributeValue + "<br>"
