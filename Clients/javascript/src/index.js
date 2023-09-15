@@ -2,8 +2,21 @@ import Definitions from "./util/Definitions.js"
 import Informational from "./util/Informational.js"
 import { DOMParser , XMLSerializer } from 'xmldom-qsa'
 import ViewTypes from "./util/ViewTypes.js"
+import BasicView from "./views/BasicView.js"
+import ArticleView from "./views/ArticleView.js"
+import ImageView from "./views/ImageView.js"
+import ImageGridView from "./views/ImageGridView.js"
 export default class NextPage
 {
+    ViewTypes = {}
+
+    constructor()
+    {
+        this.ViewTypes[BasicView.name] = BasicView
+        this.ViewTypes[ArticleView.name] = ArticleView
+        this.ViewTypes[ImageView.name] = ImageView
+        this.ViewTypes[ImageGridView.name] = ImageGridView
+    }
 
     /**
      * Get node from webpage.
@@ -34,7 +47,7 @@ export default class NextPage
         if(viewInformation instanceof Number)
         return -4
 
-        const viewData = this.getQueryData(Informational,node,webpageDOM)
+        const viewData = this.getQueryData(viewInformation,node,webpageDOM)
 
         
         
@@ -176,7 +189,7 @@ export default class NextPage
         if(definedValue.includes(">"))
             type = definedValue.split('>')[0].trim()
 
-        if(ViewTypes[type])
+        if(this.ViewTypes[type])
             return type.trim()
 
         return false
@@ -204,7 +217,7 @@ export default class NextPage
         return "tagged"
 
         // Get default query 
-        return ViewTypes[definedValue.trim()].default
+        return this.ViewTypes[definedValue.trim()].default
     }
 
     /**
@@ -216,7 +229,7 @@ export default class NextPage
      */
     isViewQueryTagged(type,node)
     {
-        let result = ViewTypes[type].tagged(node)
+        let result = this.ViewTypes[type].tagged(node)
 
         if(!result)
             return false
@@ -224,6 +237,4 @@ export default class NextPage
         return result
     }
 
-    
-   
 }
