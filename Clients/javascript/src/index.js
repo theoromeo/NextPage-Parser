@@ -260,7 +260,8 @@ export default class NextPage
         else 
         element = this.executeQuery(query,node)
 
-        element = this.addFallbackProperties(element)
+
+        element = this.addFallbackProperties(element,webpageDOM)
 
         return element
     }
@@ -278,8 +279,11 @@ export default class NextPage
         const head = this.toDOM(dom).querySelector("head")
         if(!head)
         return -1
-    
-        return {icon:this.getFallbackIcon(head),title:this.getFallbackTitle(head),description:this.getFallbackDescription(head)}
+
+        const icon = this.getFallbackIcon(head)
+        const title = this.getFallbackTitle(head)
+        const description = this.getFallbackDescription(head)
+        return {icon:icon,title:title,description:description}
     }
 
     executeQuery(query,element)
@@ -290,21 +294,25 @@ export default class NextPage
 
     addFallbackProperties(element, dom)
     {
-        let result = element
+        const head = this.toDOM(dom).querySelector("head")
+        if(!head)
+        return -2
+
+        let result =element
 
         if(!result.title)
         {
-            result.title = this.getFallbackTitle(dom)
+            result.title = this.getFallbackTitle(head)
         }
 
         if(!result.description)
         {
-            result.description = this.getFallbackDescription(dom)
+            result.description = this.getFallbackDescription(head)
         }
 
         if(!result.icon)
         {
-            result.icon = this.getFallbackIcon(dom)
+            result.icon = this.getFallbackIcon(head)
         }
 
         return result
@@ -312,8 +320,6 @@ export default class NextPage
 
     getFallbackTitle(head)
     {
-
-
         let title = head.querySelector(`meta[name="${Informational.title}"]`).getAttribute('content')
         
         if(!title)
