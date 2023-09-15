@@ -206,9 +206,13 @@ export default class NextPage
     {   
         let query = ''
 
-        // Custom query
+        // Custom local query
         if(definedValue.includes('>'))
         return definedValue.replace('>',"|").split("|")[1].trim()
+
+        // Custom global query 
+        if(definedValue.includes('<<'))
+        return "<< "+definedValue.replace('<<',"|").split("|")[1].trim()
 
         // By tag
         query = this.isViewQueryTagged(definedValue.trim(),node)
@@ -258,7 +262,7 @@ export default class NextPage
         element = this.ViewTypes[info.type].tagged(node)
 
         else 
-        element = this.executeQuery(query,node)
+        element = this.executeQuery(info,query,node,webpageDOM)
 
 
         element = this.addFallbackProperties(element,webpageDOM)
@@ -286,9 +290,9 @@ export default class NextPage
         return {icon:icon,title:title,description:description}
     }
 
-    executeQuery(query,element)
+    executeQuery(info,query,node,dom)
     {
-        return element.querySelectorAll(query)
+        const queryResult = element.querySelectorAll(query)
     }
 
     /**
