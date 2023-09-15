@@ -1,7 +1,6 @@
 import Definitions from "./util/Definitions.js"
 import Informational from "./util/Informational.js"
 import { DOMParser , XMLSerializer } from 'xmldom-qsa'
-import ViewTypes from "./util/ViewTypes.js"
 import BasicView from "./views/BasicView.js"
 import ArticleView from "./views/ArticleView.js"
 import ImageView from "./views/ImageView.js"
@@ -237,4 +236,120 @@ export default class NextPage
         return result
     }
 
+
+    /**
+     * @param {Object} info - object containing query and view type
+     * @param {Node} node - root node 
+     * @param {Node} webpageDOM - Whole webpage node for custom view queries
+     * @returns {Object}
+     */
+    getQueryData(info,node,webpageDOM)
+    {
+        let element
+        const query = info.query
+
+        if(!query)
+        element = this.getHeaderProperties(webpageDOM)
+
+        if(element instanceof Number)
+        return -1
+
+        else if(query == "tagged")
+        element = this.ViewTypes[info.type].tagged(node)
+
+        else 
+        element = this.executeQuery(query,node)
+
+        element = this.addFallbackProperties(element)
+
+        return element
+    }
+
+    /**
+     * 
+     * @param {Document} dom - webpage dom
+     * @returns {(object|Number)} 
+     * - Object containing the title, description and icon
+     * - -1 if no head found in dom
+     * - -2 if title or description was empty
+     */
+    getHeaderProperties(dom)
+    {
+        const head = this.toDOM(dom).querySelector("head")
+        if(!head)
+        return -1
+    
+        return {icon:this.getFallbackIcon(head),title:this.getFallbackTitle(head),description:this.getFallbackDescription(head)}
+    }
+
+    executeQuery(query,element)
+    {
+        return element.querySelectorAll(query)
+    }
+
+
+    addFallbackProperties(element, dom)
+    {
+        let result = element
+
+        if(!result.title)
+        {
+            result.title = this.getFallbackTitle(dom)
+        }
+
+        if(!result.description)
+        {
+            result.description = this.getFallbackDescription(dom)
+        }
+
+        if(!result.icon)
+        {
+            result.icon = this.getFallbackIcon(dom)
+        }
+
+        return result
+    }
+
+    getFallbackTitle(head)
+    {
+
+
+        let title = head.querySelector(`meta[name="${Informational.title}"]`).getAttribute('content')
+        
+        if(!title)
+        title = head.getElementsByTagName("title").textContent
+        
+        if(!title)
+        return false
+
+        return title
+
+
+    }
+
+    getFallbackDescription(head)
+    {
+        let description = head.querySelector(`meta[name="${Informational.description}"]`).getAttribute('content')
+        
+        if(!description)
+        return false
+
+        return description
+    }
+
+    getFallbackIcon(head)
+    {        
+        let icon = head.querySelector(`meta[name="${Informational.icon}"]`).getAttribute('content')
+        
+        if(!icon)
+        icon = head.querySelector(`link[rel="icon"]`).getAttribute('href')
+        
+        if(!icon)
+        return false
+
+        return icon
+    }
+    
+    
+   
 }
