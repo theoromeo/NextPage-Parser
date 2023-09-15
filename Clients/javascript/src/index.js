@@ -291,7 +291,14 @@ export default class NextPage
         return element.querySelectorAll(query)
     }
 
-
+    /**
+     * 
+     * @param {object} element - View results
+     * @param {string} dom - Webpage string
+     * @returns {(Object|Number)}
+     * - Properties with fallbacks
+     * - -1 if dom passed did not contain head tag
+     */
     addFallbackProperties(element, dom)
     {
         const head = this.toDOM(dom).querySelector("head")
@@ -317,7 +324,10 @@ export default class NextPage
 
         return result
     }
-
+    /**
+     * @param {Node} head 
+     * @returns {String} Fallback value
+     */
     getFallbackTitle(head)
     {
         let title = head.querySelector(`meta[name="${Informational.title}"]`).getAttribute('content')
@@ -333,6 +343,10 @@ export default class NextPage
 
     }
 
+    /**
+     * @param {Node} head 
+     * @returns {String} Fallback value
+     */
     getFallbackDescription(head)
     {
         let description = head.querySelector(`meta[name="${Informational.description}"]`).getAttribute('content')
@@ -342,7 +356,11 @@ export default class NextPage
 
         return description
     }
-
+    
+    /**
+     * @param {Node} head 
+     * @returns {String} Fallback value
+     */   
     getFallbackIcon(head)
     {        
         let icon = head.querySelector(`meta[name="${Informational.icon}"]`).getAttribute('content')
