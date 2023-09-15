@@ -16,10 +16,10 @@ const ImageView =
         const elementValue = element.getAttribute('src')
 
         if(attributeValue != Informational.img)
-        return attributeValue
+        return {result:attributeValue,view:this.name}
 
         if(elementValue)
-        return elementValue
+        return {result:elementValue,view:this.name}
 
         return false
     }

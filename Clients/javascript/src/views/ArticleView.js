@@ -29,7 +29,7 @@ const ArticleView =
 
         result = result.slice(0,result.length-4)
 
-        return result
+        return {result:result,view:this.name}
     }
 }
 

@@ -26,7 +26,7 @@ const ImageGridView =
         
         });
 
-        return result
+        return {result:result,view:this.name}
     }
 
 }

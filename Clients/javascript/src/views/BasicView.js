@@ -37,6 +37,7 @@ const BasicView =
         else
         result.description = elementDescription.textContent
 
+        result.result = {view:this.name}
         return result
     }
 
