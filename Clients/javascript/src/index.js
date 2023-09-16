@@ -5,6 +5,7 @@ import BasicView from "./views/BasicView.js"
 import ArticleView from "./views/ArticleView.js"
 import ImageView from "./views/ImageView.js"
 import ImageGridView from "./views/ImageGridView.js"
+import QueryOperators from "./util/QueryOperators.js"
 export default class NextPage
 {
     ViewTypes = {}
@@ -191,11 +192,11 @@ export default class NextPage
         let type = definedValue.trim()
 
 
-        if(definedValue.includes("<<"))
-        type = definedValue.split('<<')[0].trim()
+        if(definedValue.includes(QueryOperators.global))
+        type = definedValue.split(QueryOperators.global)[0].trim()
 
-        else if(definedValue.includes(">"))
-        type = definedValue.split('>')[0].trim()
+        else if(definedValue.includes(QueryOperators.local))
+        type = definedValue.split(QueryOperators.local)[0].trim()
 
 
         if(this.ViewTypes[type])
@@ -217,12 +218,12 @@ export default class NextPage
         let query = ''
 
         // Custom global query 
-        if(definedValue.includes('<<'))
-        return "<< "+definedValue.replace('<<',"|").split("|")[1].trim()
+        if(definedValue.includes(QueryOperators.global))
+        return QueryOperators.global+definedValue.replace(QueryOperators.global,"|").split("|")[1].trim()
 
         // Custom local query
-        if(definedValue.includes('>'))
-        return definedValue.replace('>',"|").split("|")[1].trim()
+        if(definedValue.includes(QueryOperators.local))
+        return definedValue.replace(QueryOperators.local,"|").split("|")[1].trim()
 
         // By tag
         query = this.isViewQueryTagged(definedValue.trim(),node)
@@ -305,7 +306,7 @@ export default class NextPage
         let activeQuery = query
         let filteredResults
 
-        if(query.startsWith("<<"))
+        if(query.startsWith(QueryOperators.global))
         {
             targetNode = this.toDOM(dom)
             activeQuery = query.slice(2)
