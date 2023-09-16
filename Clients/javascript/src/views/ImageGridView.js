@@ -4,11 +4,12 @@ const ImageGridView =
 {
     name: "image.grid",    
     default: "img:nth-child(-n+6)",
+    limit: 6,
     
     tagged:function(node)
     {
         let result = []
-        const elements = node.querySelectorAll(`[${Informational.img}]`).slice(0,6)
+        const elements = node.querySelectorAll(`[${Informational.img}]`).slice(0,this.limit)
 
         if(elements.length <1)
         return false
@@ -27,6 +28,31 @@ const ImageGridView =
         });
 
         return {result:result,view:this.name}
+    },
+
+    filter:function(data)
+    {
+        let result = []
+
+        if(data instanceof Array)
+        {
+            data.forEach(element => {
+                const src = element.getAttribute('src')
+
+                if(src)
+                result.push(src)
+            });
+        }
+
+        else
+        {
+            const src = element.getAttribute('src')
+
+            if(src)
+            result.push(src)
+        }
+
+        return result.splice(0,6)
     }
 
 }

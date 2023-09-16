@@ -22,6 +22,36 @@ const ImageView =
         return {result:elementValue,view:this.name}
 
         return false
+    },
+
+    filter:function(data)
+    {
+        let src
+        let result = []
+        if(data instanceof Array)
+        {
+            data.every(element =>
+            {
+                if(element.tagName == "img")
+                {   
+                    src = element.getAttribute('src')
+                    return 
+                }
+                
+                return true
+                
+            });
+        }
+
+        else 
+        {
+            src = element.getAttribute('src')
+        }
+
+        if(src)
+        result.push(src)
+
+        return result
     }
 
 }

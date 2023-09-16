@@ -5,6 +5,8 @@ const BasicView =
 {
     name:"basic",
     default:false,
+    titleLimit:60,
+    descriptionLimit:100,
     
     tagged:function (node)
     {
@@ -37,8 +39,17 @@ const BasicView =
         else
         result.description = elementDescription.textContent
 
+        
+        result.title = result.title.slice(0,this.titleLimit)
+        result.description = result.description.slice(0,this.descriptionLimit)
+
         result.result = {view:this.name}
         return result
+    },
+
+    filter: function(data)
+    {
+        return false
     }
 
     
