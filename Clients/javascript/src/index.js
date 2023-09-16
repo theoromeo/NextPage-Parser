@@ -96,7 +96,12 @@ export default class NextPage
      */
     toDOM(html)
     {
-        const page = new DOMParser().parseFromString(html,'text/xml')
+        const page = new DOMParser
+        ({  locator: {},
+            errorHandler: { warning: function (w) { }, 
+            error: function (e) { }, 
+            fatalError: function (e) { console.error(e) } }
+        }).parseFromString(html,"text/xml");
 
         if(!page)
         return -1
@@ -185,8 +190,13 @@ export default class NextPage
     {
         let type = definedValue.trim()
 
-        if(definedValue.includes(">"))
-            type = definedValue.split('>')[0].trim()
+
+        if(definedValue.includes("<<"))
+        type = definedValue.split('<<')[0].trim()
+
+        else if(definedValue.includes(">"))
+        type = definedValue.split('>')[0].trim()
+
 
         if(this.ViewTypes[type])
             return type.trim()
@@ -206,13 +216,13 @@ export default class NextPage
     {   
         let query = ''
 
-        // Custom local query
-        if(definedValue.includes('>'))
-        return definedValue.replace('>',"|").split("|")[1].trim()
-
         // Custom global query 
         if(definedValue.includes('<<'))
         return "<< "+definedValue.replace('<<',"|").split("|")[1].trim()
+
+        // Custom local query
+        if(definedValue.includes('>'))
+        return definedValue.replace('>',"|").split("|")[1].trim()
 
         // By tag
         query = this.isViewQueryTagged(definedValue.trim(),node)
@@ -251,7 +261,6 @@ export default class NextPage
     {
         let element
         const query = info.query
-
         if(!query)
         element = this.getHeaderProperties(webpageDOM)
 
@@ -262,7 +271,7 @@ export default class NextPage
         element = this.ViewTypes[info.type].tagged(node)
 
         else 
-        element = this.executeQuery(info,query,node,webpageDOM)
+        element = this.executeQuery(info.type,query,node,webpageDOM)
 
 
         element = this.addFallbackProperties(element,webpageDOM)
@@ -290,9 +299,29 @@ export default class NextPage
         return {icon:icon,title:title,description:description}
     }
 
-    executeQuery(info,query,node,dom)
+    executeQuery(type,query,node,dom)
     {
-        const queryResult = element.querySelectorAll(query)
+        let targetNode = node;
+        let activeQuery = query
+        let filteredResults
+
+        if(query.startsWith("<<"))
+        {
+            targetNode = this.toDOM(dom)
+            activeQuery = query.slice(2)
+        }
+        
+        const queryResult = targetNode.querySelectorAll(activeQuery)
+        
+
+        if(!queryResult)
+        filteredResults = false
+
+        else 
+        filteredResults = this.ViewTypes[type].filter(queryResult)
+    
+        return {type:type,result:filteredResults}
+
     }
 
     /**
