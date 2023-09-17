@@ -140,7 +140,11 @@ If you define [informational properties](#informational-properties) inside the n
 - basic - Will look for [Information Properties](#informational-properties) to find its data; if no property is defined in the node, the head properties are used.
 
 ### Custom view queries
-If your data is stored in a different structure, you can define your own queries using the query syntax in the `np-view` attribute.
+Custom queries enable you to exert greater control over the retrieval of view data using `CSS queries`.
+
+####  Local Queries
+Local queries enable you to select data within the declared node by using the > (local operator) followed by your query after the view type in the `np-view` property.
+
 ```html
 <article 
     np-for="fender"
@@ -161,7 +165,53 @@ If your data is stored in a different structure, you can define your own queries
 </article>
 ```
 
-This will define an `image.grid view` and query against its node with `"> a > img"`
+This will define an `image.grid` view and query its node with `"a > img"`
+
+#### Global Queries
+Global queries enable you to select data outside the declared node by using the `>>`(global operator), followed by your query after the view type.
+
+```html
+<article 
+    np-for="fender"
+    np-view="image.gird >> .aside > .fender-gallery > img">
+    ...
+</article>
+```
+
+This will search `.aside > .fender-gallery > img"` against the whole document.
+
+### Data Types When Defining Custom Queries
+When creating custom queries, ensure that the queries yield the correct elements located at the first level of nodes.
+
+#### Example:
+```html
+<article class="fender">
+    <header class="info">
+        <h1>...</h1>
+        <p>...</p>
+    </header>
+    <div class="gallery">
+        <img src="...1" alt="">
+        <img src="...2" alt="">
+        <img src="...3" alt="">
+    </div>
+</article>
+```
+Using `image.grid >> .fender > .gallery > img` will retrieve the `src` attribute value of the `img` tag.
+
+Declaring a custom query like `image.grid >> .fender > .gallery` retrieves only the `.gallery` element in the first level of results, resulting in no values returned for `image.grid`.
+
+### Retrieving Tags for Views
+
+When declaring a custom view query, each view type searches for the first `n` instances of its valid tags.
+
+| View               | Tags                                        | 
+|------------------|:---------------------------------|
+| `basic`             | Utilizes only informational properties  | 
+| `article`           | First instances of any element with inner text |
+| `image`             | First instance of an `img` tag |
+| `image.grid`    | First 6 instances of `img` tags |
+
 
 ### Query Priority
 1. Custom view query
