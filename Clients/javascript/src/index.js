@@ -311,7 +311,10 @@ export default class NextPage
             activeQuery = query.slice(2)
         }
         
-        const queryResult = targetNode.querySelectorAll(activeQuery)
+        let queryResult
+
+        if(activeQuery.trim() != "")
+        queryResult = targetNode.querySelectorAll(activeQuery)
         
 
         if(!queryResult)
