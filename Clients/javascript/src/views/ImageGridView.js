@@ -19,7 +19,7 @@ const ImageGridView =
             let elementValue = element.getAttribute('src')
             let attributeValue = element.getAttribute(Informational.img)
 
-            if(attributeValue != Informational.img)
+            if(attributeValue != Informational.img && attributeValue.trim() != "")
             result.push(attributeValue)
 
             else if(elementValue)

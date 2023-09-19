@@ -21,7 +21,7 @@ const ArticleView =
             let elementValue = element.textContent
             let attributeValue = element.getAttribute(Informational.p)
 
-            if(attributeValue != Informational.p)
+            if(attributeValue != Informational.p && attributeValue.trim() != "")
             result += attributeValue + "<br>"
             
             else if(elementValue)

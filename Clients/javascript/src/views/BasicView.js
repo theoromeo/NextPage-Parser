@@ -26,14 +26,14 @@ const BasicView =
         const attributeDescription = elementDescription.getAttribute(Informational.description)
 
         // Title
-        if(attributeTitle != Informational.title)
+        if(attributeTitle != Informational.title && attributeTitle.trim() != "")
         result.title = attributeTitle
 
         else
         result.title = elementTitle.textContent
 
         // Description
-        if(attributeDescription != Informational.description)
+        if(attributeDescription != Informational.description && attributeDescription.trim() != "")
         result.description = attributeDescription
 
         else
