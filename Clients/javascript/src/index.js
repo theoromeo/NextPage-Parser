@@ -363,7 +363,10 @@ export default class NextPage
      */
     getFallbackTitle(head)
     {
-        let title = head.querySelector(`meta[name="${Informational.title}"]`).getAttribute('content')
+        let title = head.querySelector(`meta[name="${Informational.title}"]`)
+
+        if(title)
+        title = title.getAttribute('content')
         
         if(!title)
         title = head.getElementsByTagName("title").textContent
@@ -382,7 +385,10 @@ export default class NextPage
      */
     getFallbackDescription(head)
     {
-        let description = head.querySelector(`meta[name="${Informational.description}"]`).getAttribute('content')
+        let description = head.querySelector(`meta[name="${Informational.description}"]`)
+
+        if(description)
+        description = description.getAttribute('content')
         
         if(!description)
         return false
@@ -396,10 +402,16 @@ export default class NextPage
      */   
     getFallbackIcon(head)
     {        
-        let icon = head.querySelector(`meta[name="${Informational.icon}"]`).getAttribute('content')
+        let icon = head.querySelector(`meta[name="${Informational.icon}"]`)
         
+        if(icon)
+        icon = icon.getAttribute('content')
+
         if(!icon)
-        icon = head.querySelector(`link[rel="icon"]`).getAttribute('href')
+        icon = head.querySelector(`link[rel="icon"]`)
+        
+        if(icon)
+        icon = icon.getAttribute('href')
         
         if(!icon)
         return false
