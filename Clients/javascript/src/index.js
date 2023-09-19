@@ -27,17 +27,17 @@ export default class NextPage
      */
     async get(url,key)
     {
-        let webpageResponse = await this.getWebpage(url)
-
+        const webpageResponse = await this.getWebpage(url)
+        
         if(webpageResponse instanceof Number)
         return -1
 
-        const webpageDOM = this.toDOM(webpageResponse)
+        const DOM = this.toDOM(webpageResponse)
 
-        if(webpageDOM instanceof Number)
+        if(DOM instanceof Number)
         return -2
 
-        const node = this.getNode(webpageDOM,key)
+        const node = this.getNode(DOM,key)
 
         if(node instanceof Number)
         return -3
@@ -47,11 +47,7 @@ export default class NextPage
         if(viewInformation instanceof Number)
         return -4
 
-        const viewData = this.getQueryData(viewInformation,node,webpageDOM)
-
-        
-        
-
+        const viewData = this.getQueryData(viewInformation,node,DOM)
 
     }
 
@@ -113,15 +109,15 @@ export default class NextPage
     /**
      * Gets defined node from DOM.
      * 
-     * @param {Document} dom - Document of parsed webpage.
+     * @param {Document} DOM - Document of parsed webpage.
      * @param {String} key - Node lookup string for 'np-for' property.
      * @returns {(Node|Number)}
      * - Node if node found
      * - -1 if node not found
      */
-    getNode(dom,key)
+    getNode(DOM,key)
     {
-        let node = dom.querySelectorAll(`[np-for="${key}"]`)
+        let node = DOM.querySelectorAll(`[np-for="${key}"]`)
 
         if(node.length == 0)
         return -1
@@ -182,21 +178,21 @@ export default class NextPage
 
 
     /**
-     * @param {String} definedValue - string from defined np-view property 
+     * @param {String} propertyValue - string from defined np-view property 
      * @returns {(String|Boolean)}
      * - string if valid view type
      * - false if invalid
      */
-    getViewType(definedValue)
+    getViewType(propertyValue)
     {
-        let type = definedValue.trim()
+        let type = propertyValue.trim()
 
 
-        if(definedValue.includes(QueryOperators.global))
-        type = definedValue.split(QueryOperators.global)[0].trim()
+        if(propertyValue.includes(QueryOperators.global))
+        type = propertyValue.split(QueryOperators.global)[0].trim()
 
-        else if(definedValue.includes(QueryOperators.local))
-        type = definedValue.split(QueryOperators.local)[0].trim()
+        else if(propertyValue.includes(QueryOperators.local))
+        type = propertyValue.split(QueryOperators.local)[0].trim()
 
 
         if(this.ViewTypes[type])
@@ -207,31 +203,31 @@ export default class NextPage
 
 
     /**
-     * @param {String} definedValue - string from defined np-view property 
+     * @param {String} propertyValue - string from defined np-view property 
      * @param {Node} node - Root Node
      * @returns {(String)}
      * - String Query string
      * - 'tagged' if node uses tags
      */
-    getViewQuery(definedValue,node)
+    getViewQuery(propertyValue,node)
     {   
         let query = ''
 
         // Custom global query 
-        if(definedValue.includes(QueryOperators.global))
-        return QueryOperators.global+definedValue.replace(QueryOperators.global,"|").split("|")[1].trim()
+        if(propertyValue.includes(QueryOperators.global))
+        return QueryOperators.global+propertyValue.replace(QueryOperators.global,"|").split("|")[1].trim()
 
         // Custom local query
-        if(definedValue.includes(QueryOperators.local))
-        return definedValue.replace(QueryOperators.local,"|").split("|")[1].trim()
+        if(propertyValue.includes(QueryOperators.local))
+        return propertyValue.replace(QueryOperators.local,"|").split("|")[1].trim()
 
         // By tag
-        query = this.isViewQueryTagged(definedValue.trim(),node)
+        query = this.isViewQueryTagged(propertyValue.trim(),node)
         if(query)
         return "tagged"
 
         // Get default query 
-        return this.ViewTypes[definedValue.trim()].default
+        return this.ViewTypes[propertyValue.trim()].default
     }
 
     /**
@@ -255,52 +251,55 @@ export default class NextPage
     /**
      * @param {Object} info - object containing query and view type
      * @param {Node} node - root node 
-     * @param {Node} webpageDOM - Whole webpage node for custom view queries
+     * @param {Node} DOM - Whole webpage node for custom view queries
      * @returns {Object}
      */
-    getQueryData(info,node,webpageDOM)
+    getQueryData(info,node,DOM)
     {
-        let element
-        const query = info.query
-        if(!query)
-        element = this.getHeaderProperties(webpageDOM)
+        let result
 
-        if(element instanceof Number)
+        const query = info.query
+
+        if(!query)
+        result = this.getHeaderProperties(DOM)
+
+        if(result instanceof Number)
         return -1
 
         else if(query == "tagged")
-        element = this.ViewTypes[info.type].tagged(node)
+        result = this.ViewTypes[info.type].tagged(node)
 
         else 
-        element = this.executeQuery(info.type,query,node,webpageDOM)
+        result = this.executeQuery(info.type,query,node,DOM)
 
 
-        element = this.addFallbackProperties(element,webpageDOM)
+        result = this.addFallbackProperties(result,DOM)
 
-        return element
+        return result
     }
 
     /**
      * 
-     * @param {Document} dom - webpage dom
+     * @param {Document} DOM - webpage dom
      * @returns {(object|Number)} 
      * - Object containing the title, description and icon
      * - -1 if no head found in dom
      * - -2 if title or description was empty
      */
-    getHeaderProperties(dom)
+    getHeaderProperties(DOM)
     {
-        const head = this.toDOM(dom).querySelector("head")
-        if(!head)
-        return -1
+        const head = DOM.querySelector("head")
+        // if(!head)
+        // return -1
 
         const icon = this.getFallbackIcon(head)
         const title = this.getFallbackTitle(head)
         const description = this.getFallbackDescription(head)
+        
         return {icon:icon,title:title,description:description}
     }
 
-    executeQuery(type,query,node,dom)
+    executeQuery(type,query,node,DOM)
     {
         let targetNode = node;
         let activeQuery = query
@@ -308,7 +307,7 @@ export default class NextPage
 
         if(query.startsWith(QueryOperators.global))
         {
-            targetNode = this.toDOM(dom)
+            targetNode = DOM
             activeQuery = query.slice(2)
         }
         
@@ -333,13 +332,13 @@ export default class NextPage
      * - Properties with fallbacks
      * - -1 if dom passed did not contain head tag
      */
-    addFallbackProperties(element, dom)
+    addFallbackProperties(preResults, DOM)
     {
-        const head = this.toDOM(dom).querySelector("head")
+        const head = DOM.querySelector("head")
         if(!head)
         return -2
 
-        let result =element
+        let result = preResults
 
         if(!result.title)
         {
@@ -407,7 +406,4 @@ export default class NextPage
 
         return icon
     }
-    
-    
-   
 }
