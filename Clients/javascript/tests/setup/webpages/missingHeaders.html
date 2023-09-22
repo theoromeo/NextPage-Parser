@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document Title</title>
+
+</head>
+<body>
+    <article id="for-basic"
+    np-for="for-basic"
+    np-view="basic">
+        <h1 np-title>#for-basic h1</h1>
+        <p np-description>#for-basic p</p>
+    </article>
+
+    <article
+    id="for-article"
+    np-for="for-article"
+    np-view="article > .content > *">
+        <header>
+            <h1>#for-article header title inner</h1>
+            <p>#for-article header description inner</p>
+        </header>
+        <div class="content">
+            <p>#for-article content -> ipsum dolor sit amet consectetur adipisicing elit. Incidunt cupiditate impedit perspiciatis maxime explicabo cumque doloremque dolorum, sit modi sint! Voluptatem reprehenderit a quae quam voluptas suscipit veritatis sint. Nihil!</p>
+            <p>#for-article content2 -> Alias aliquam unde ex, eum doloribus accusantium omnis, ipsa dolor eligendi in corporis voluptatem modi voluptas atque quis consequatur possimus, culpa impedit?</p>
+            <p>#for-article content3 -> Molestiae numquam consectetur, in suscipit nostrum neque impedit voluptatem aliquam pariatur quisquam accusantium vel ducimus animi ut aspernatur repudiandae ipsam facilis doloremque!</p>
+            
+        </div>
+    </article>
+
+    <article
+    id="for-article-headers"
+    np-for="for-article-headers"
+    np-view="article > .content > *">
+        <header>
+            <h1 np-title>#for-article-headers header title inner</h1>
+            <p np-description>#for-article-headers header description inner</p>
+        </header>
+        <div class="content">
+            <p>#for-article-headers content -> ipsum dolor sit amet consectetur adipisicing elit. Incidunt cupiditate impedit perspiciatis maxime explicabo cumque doloremque dolorum, sit modi sint! Voluptatem reprehenderit a quae quam voluptas suscipit veritatis sint. Nihil!</p>
+            <p>#for-article-headers content2 -> Alias aliquam unde ex, eum doloribus accusantium omnis, ipsa dolor eligendi in corporis voluptatem modi voluptas atque quis consequatur possimus, culpa impedit?</p>
+            <p>#for-article-headers content3 -> Molestiae numquam consectetur, in suscipit nostrum neque impedit voluptatem aliquam pariatur quisquam accusantium vel ducimus animi ut aspernatur repudiandae ipsam facilis doloremque!</p>
+            
+        </div>
+    </article>
+</body>
+</html>
