@@ -321,6 +321,9 @@ export default class NextPage
         let activeQuery = query
         let filteredResults
 
+        if(!query)
+        return {type:type,result:null}
+    
         if(query.startsWith(QueryOperators.global))
         {
             targetNode = DOM
