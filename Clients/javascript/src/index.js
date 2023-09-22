@@ -49,6 +49,9 @@ export default class NextPage
 
         const viewData = this.getQueryData(viewInformation,node,DOM)
 
+        return viewData
+
+
     }
 
     /**
@@ -118,8 +121,7 @@ export default class NextPage
     getNode(DOM,key)
     {
         let node = DOM.querySelectorAll(`[np-for="${key}"]`)
-
-        if(node.length == 0)
+        if(node.length < 1 )
         return -1
 
         if(node.length > 1)
@@ -158,15 +160,18 @@ export default class NextPage
      */
     getViewInformation(node)
     {
+        if(!node.nodeType)
+        return -1
+
         let viewProperty = node.getAttribute(Definitions.view)
 
         if(!viewProperty)
-        return -1
+        return -2
 
         let type = this.getViewType(viewProperty)
 
         if(!type)
-        return -2
+        return -3
 
         let query = this.getViewQuery(viewProperty,node)
 
@@ -258,13 +263,19 @@ export default class NextPage
     {
         let result
 
+        if(!DOM.nodeType)
+        return -1
+
+        if(!node.nodeType)
+        return -2
+
         const query = info.query
 
         if(!query)
         result = this.getHeaderProperties(DOM)
 
         if(result instanceof Number)
-        return -1
+        return -3
 
         else if(query == "tagged")
         result = this.ViewTypes[info.type].tagged(node)
@@ -272,6 +283,11 @@ export default class NextPage
         else 
         result = this.executeQuery(info.type,query,node,DOM)
 
+        // Get Basic properties from result query
+        const basics = this.getBasicPropertiesForNode(node)
+
+        // if(info.view == "article")
+        result = {...result,...basics}
 
         result = this.addFallbackProperties(result,DOM)
 
@@ -313,6 +329,7 @@ export default class NextPage
         
         let queryResult
 
+
         if(activeQuery.trim() != "")
         queryResult = targetNode.querySelectorAll(activeQuery)
         
@@ -322,9 +339,75 @@ export default class NextPage
 
         else 
         filteredResults = this.ViewTypes[type].filter(queryResult)
-    
-        return {type:type,result:filteredResults}
 
+        let result = {type:type,result:filteredResults}
+        return result
+
+    }
+
+
+    getBasicPropertiesForNode(node)
+    {
+        const titleElement = node.querySelector(`[${Informational.title}]`)
+        const descriptionElement = node.querySelector(`[${Informational.description}]`)
+        const iconElement = node.querySelector(`[${Informational.icon}]`)
+
+        let titleValue = false,
+        descriptionValue=false,
+        iconValue =false
+
+        if(titleElement)
+        {
+            let value =  titleElement.getAttribute(Informational.title)
+
+            if(value != Informational.title && value.trim != "")
+            titleValue = value
+
+            else
+            {
+                value = titleElement.textContent
+
+                if(value.trim != "")
+                titleValue = value
+            }
+        }
+
+        if(descriptionElement)
+        {
+            let value =  descriptionElement.getAttribute(Informational.description)
+
+            if(value != Informational.description && value.trim != "")
+            descriptionValue = value
+
+            else
+            {
+                value = descriptionElement.textContent
+
+                if(value.trim != "")
+                descriptionValue = value
+            }
+        }
+
+        if(iconElement)
+        {
+            let value =  iconElement.getAttribute(Informational.icon)
+
+            if(value != Informational.icon && value.trim != "")
+            iconValue = value
+        }
+
+        let result = []
+
+        if(titleValue)
+        result.title = titleValue
+
+        if(descriptionValue)
+        result.description = descriptionValue
+
+        if(iconValue)
+        result.icon = iconValue
+
+        return result
     }
 
     /**
