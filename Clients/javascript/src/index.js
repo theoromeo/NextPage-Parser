@@ -455,7 +455,7 @@ export default class NextPage
         title = title.getAttribute('content')
         
         if(!title)
-        title = head.getElementsByTagName("title").textContent
+        title = head.getElementsByTagName("title")[0].textContent
         
         if(!title)
         return false
