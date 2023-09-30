@@ -33,39 +33,25 @@
         <h1 np-title>#for-basic-fallback h1</h1>
     </article>
 
+    
     <article
-    id="for-article-query"
-    np-for="for-article-query"
-    np-view="article >> #for-basic">
-    </article>
-
-    <article
-    id="for-article-headers"
-    np-for="for-article-headers"
-    np-view="article > .content > *">
-        <header>
-            <h1 np-title>#for-article-headers header title inner</h1>
-            <p np-description>#for-article-headers header description inner</p>
-        </header>
-        <div class="content">
-            <p>#for-article-headers content -> ipsum dolor sit amet consectetur adipisicing elit. Incidunt cupiditate impedit perspiciatis maxime explicabo cumque doloremque dolorum, sit modi sint! Voluptatem reprehenderit a quae quam voluptas suscipit veritatis sint. Nihil!</p>
-            <p>#for-article-headers content2 -> Alias aliquam unde ex, eum doloribus accusantium omnis, ipsa dolor eligendi in corporis voluptatem modi voluptas atque quis consequatur possimus, culpa impedit?</p>
-            <p>#for-article-headers content3 -> Molestiae numquam consectetur, in suscipit nostrum neque impedit voluptatem aliquam pariatur quisquam accusantium vel ducimus animi ut aspernatur repudiandae ipsam facilis doloremque!</p>
-            
-        </div>
-    </article>
-
-    <article
-    id="for-article-limits"
-    np-for="for-article-limits"
+    id="for-article"
+    np-for="for-article"
     np-view="article">
         <header>
-            <h1 np-title>#for-article-headers header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner </h1>
-            <p np-description>#for-article-headers header description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner</p>
+            <h1 np-title>#for-article header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner header title inner </h1>
+            <p np-description>#for-article header description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner description inner</p>
         </header>
-        <p>#for-article-headers content -> ipsum dolor sit amet consectetur adipisicing elit. Incidunt cupiditate impedit perspiciatis maxime explicabo cumque doloremque dolorum, sit modi sint! Voluptatem reprehenderit a quae quam voluptas suscipit veritatis sint. Nihil!</p>
-        <p>#for-article-headers content2 -> Alias aliquam unde ex, eum doloribus accusantium omnis, ipsa dolor eligendi in corporis voluptatem modi voluptas atque quis consequatur possimus, culpa impedit?</p>
-        <p>#for-article-headers content3 -> Molestiae numquam consectetur, in suscipit nostrum neque impedit voluptatem aliquam pariatur quisquam accusantium vel ducimus animi ut aspernatur repudiandae ipsam facilis doloremque!</p>            
+        <p>#for-article content -> ipsum dolor sit amet consectetur adipisicing elit. Incidunt cupiditate impedit perspiciatis maxime explicabo cumque doloremque dolorum, sit modi sint! Voluptatem reprehenderit a quae quam voluptas suscipit veritatis sint. Nihil!</p>
+        <p>#for-article content2 -> Alias aliquam unde ex, eum doloribus accusantium omnis, ipsa dolor eligendi in corporis voluptatem modi voluptas atque quis consequatur possimus, culpa impedit?</p>
+        <p>#for-article content3 -> Molestiae numquam consectetur, in suscipit nostrum neque impedit voluptatem aliquam pariatur quisquam accusantium vel ducimus animi ut aspernatur repudiandae ipsam facilis doloremque!</p>            
+    </article>
+
+
+    <article
+    id="for-article"
+    np-for="for-article"
+    np-view="article >> #for-article > p">
     </article>
 </body>
 </html>
