@@ -6,6 +6,7 @@ import ArticleView from "./views/ArticleView.js"
 import ImageView from "./views/ImageView.js"
 import ImageGridView from "./views/ImageGridView.js"
 import QueryOperators from "./util/QueryOperators.js"
+import FallbackLimits from "./util/FallbackLimits.js"
 export default class NextPage
 {
     ViewTypes = {}
@@ -25,31 +26,42 @@ export default class NextPage
      * @param {String} key - Node to look for on webpage
      * @returns 
      */
-    async get(url,key)
+    async get(url,key = null)
     {
         const webpageResponse = await this.getWebpage(url)
-        
-        if(webpageResponse instanceof Number)
+
+        if(typeof webpageResponse == "number")
         return -1
 
         const DOM = this.toDOM(webpageResponse)
 
-        if(DOM instanceof Number)
+        if(typeof DOM == "number")
         return -2
 
-        const node = this.getNode(DOM,key)
+        if(key)
+        {
+            const node = this.getNode(DOM,key)
 
-        if(node instanceof Number)
-        return -3
+            if(typeof node == "number")
+            return -3
 
-        const viewInformation = this.getViewInformation(node)
+            const viewInformation = this.getViewInformation(node)
 
-        if(viewInformation instanceof Number)
-        return -4
+            if(typeof viewInformation == "number")
+            return -4
 
-        const viewData = this.getQueryData(viewInformation,node,DOM)
+            const viewData = this.getQueryData(viewInformation,node,DOM)
 
-        return viewData
+            return viewData
+        
+        }
+        console.debug(DOM)
+        const headers = this.getHeaderProperties(DOM)
+        
+        if(!headers)
+        return -5
+
+        return headers
 
 
     }
@@ -466,7 +478,7 @@ export default class NextPage
         if(!title)
         return false
 
-        return title
+        return title.slice(0,FallbackLimits.title)
 
 
     }
@@ -485,7 +497,7 @@ export default class NextPage
         if(!description)
         return false
 
-        return description
+        return description.slice(0,FallbackLimits.description)
     }
     
     /**
