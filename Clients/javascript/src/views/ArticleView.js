@@ -4,55 +4,51 @@ import { DOMParser} from 'xmldom-qsa'
 const ArticleView = 
 {
     name: "article",    
-    default: "p",
     limit:300,
+    default: function(node)
+    {
+        let result = []
+        
+        let children = node.childNodes
+
+        for (let index = 0; index < children.length; index++) 
+        {
+            const element = children[index];
+            if(element.tagName == "p")
+            {
+                result.push(element)         
+            }   
+        }
+        return result
+    },
 
     tagged:function(node)
     {
-        let result = "";
-
-        const elements = node.querySelectorAll(`[${Informational.p}]`)
+        let elements = node.querySelectorAll(`[${Informational.p}]`)
 
         if(elements.length == 0)
         return false
 
-        elements.forEach(element => 
-        {
-            let elementValue = element.textContent
-            let attributeValue = element.getAttribute(Informational.p)
-
-            if(attributeValue != Informational.p && attributeValue.trim() != "")
-            result += attributeValue + "<br>"
-            
-            else if(elementValue)
-            result += elementValue + "<br>"
-        })
-
-        result = result.slice(0,result.length-4).slice(0,this.limit)
-        return {result:result,view:this.name}
+        return elements
     },
 
-    filter:function(data)
+    filter:function(queryResult)
     {
-        let result = ""
-        // Data will always be a node
-        if(data instanceof Array)
+        let result = " "
+        if(queryResult instanceof Array)
         {
-            data.forEach(element => {
-
-                if(element.textContent.trim())
-                result += element.textContent + "<br>" 
-            
-            });
+            for (let index = 0; index < queryResult.length; index++) 
+            {
+                const element = queryResult[index];
+                result += element.textContent +"<br>"
+            }
         }
 
         else 
-        {
-            result = element.textContent + "<br>" 
-        }
+        result = queryResult.textContent + "<br>" 
 
         result = result.slice(0,result.length-4).slice(0,this.limit)
-
+        
         return result
     }
 }

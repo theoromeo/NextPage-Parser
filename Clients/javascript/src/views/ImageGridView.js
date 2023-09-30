@@ -3,56 +3,96 @@ import Informational from "../util/Informational";
 const ImageGridView = 
 {
     name: "image.grid",    
-    default: "img:nth-child(-n+6)",
+    default:function(node)
+    {
+        let result = []
+        const elements = node.childNodes
+
+        for (let index = 0; index < elements.length; index++) {
+            const element = elements[index];
+
+            if(element.tagName == "img")
+            result.push(element)
+        
+            if(result.length >5)
+            break
+        }
+
+        if(result.length == 0)
+        return false
+
+        return result
+    },
     limit: 6,
     
     tagged:function(node)
     {
-        let result = []
         const elements = node.querySelectorAll(`[${Informational.img}]`).slice(0,this.limit)
 
         if(elements.length <1)
         return false
 
-        elements.forEach(element => 
-        {
-            let elementValue = element.getAttribute('src')
-            let attributeValue = element.getAttribute(Informational.img)
+        // elements.forEach(element => 
+        // {
+        //     let elementValue = element.getAttribute('src')
+        //     let attributeValue = element.getAttribute(Informational.img)
 
-            if(attributeValue != Informational.img && attributeValue.trim() != "")
-            result.push(attributeValue)
+        //     if(attributeValue != Informational.img && attributeValue.trim() != "")
+        //     result.push(attributeValue)
 
-            else if(elementValue)
-            result.push(elementValue)
+        //     else if(elementValue)
+        //     result.push(elementValue)
         
-        });
-
-        return {result:result,view:this.name}
+        // });
+        return elements
     },
 
-    filter:function(data)
+    filter:function(queryResult)
     {
+
         let result = []
+        if(queryResult instanceof Array){}   
+        else 
+        queryResult = [queryResult]     
 
-        if(data instanceof Array)
+        if(queryResult instanceof Array)
         {
-            data.forEach(element => {
-                const src = element.getAttribute('src')
+           for (let index = 0; index < queryResult.length; index++) 
+           {
+                const element = queryResult[index];
 
-                if(src)
-                result.push(src)
-            });
+                if(element.tagName != "img")
+                continue
+
+                if(element.getAttribute(Informational.img))
+                {
+                    let value = element.getAttribute(Informational.img)
+
+                    if(value.trim() == "" || value == Informational.img)
+                    continue
+
+                    result.push(value)
+                    continue
+                }
+
+                else 
+                {
+                    let value = element.getAttribute('src')
+
+                    if(value.trim() == "")
+                    continue
+
+                    result.push( value)
+                    continue   
+                }
+            
+           }
         }
 
-        else
-        {
-            const src = element.getAttribute('src')
+        if(result.length <1)
+        return false
 
-            if(src)
-            result.push(src)
-        }
-
-        return result.splice(0,6)
+        return result.slice(0,this.limit)
     }
 
 }

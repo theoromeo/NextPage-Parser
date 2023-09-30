@@ -3,7 +3,16 @@ import Informational from "../util/Informational";
 const ImageView = 
 {
     name: "image",    
-    default: "img:first-of-type",
+
+    default:function(node)
+    {
+        const element = node.querySelector(`img:first-of-type`)
+
+        if(!element)
+        return false
+
+        return element
+    },
     
     tagged:function(node)
     {
@@ -12,44 +21,50 @@ const ImageView =
         if(!element)
         return false
 
-        const attributeValue = element.getAttribute(Informational.img)
-        const elementValue = element.getAttribute('src')
-
-        if(attributeValue != Informational.img && attributeValue.trim() != "" )
-        return {result:attributeValue,view:this.name}
-
-        if(elementValue)
-        return {result:elementValue,view:this.name}
-
-        return false
+        return element
     },
 
-    filter:function(data)
+    filter:function(queryResult)
     {
-        let src
-        let result = []
-        if(data instanceof Array)
+        let result = false
+        if(queryResult instanceof Array)
         {
-            data.every(element =>
+
+        }   
+        else 
+        queryResult = [queryResult]     
+
+        if(queryResult instanceof Array)
+        {
+            queryResult.every(element =>
             {
-                if(element.tagName == "img")
-                {   
-                    src = element.getAttribute('src')
-                    return 
-                }
-                
+                if(element.tagName != "img")
                 return true
+
+                if(element.getAttribute(Informational.img))
+                {
+
+                    let value = element.getAttribute(Informational.img)
+                    if(value.trim() == "" || value == Informational.img)
+                    return true
+
+                    result = value
+                    return false
+                }
+
+                let value = element.getAttribute('src')
+
+                if(value.trim() == "")
+                return true
+
+                result = value
+                return false
                 
             });
         }
 
-        else 
-        {
-            src = element.getAttribute('src')
-        }
-
-        if(src)
-        result.push(src)
+        if(!result)
+        return false
 
         return result
     }

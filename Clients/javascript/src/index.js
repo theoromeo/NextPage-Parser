@@ -231,8 +231,9 @@ export default class NextPage
         if(query)
         return "tagged"
 
+
         // Get default query 
-        return this.ViewTypes[propertyValue.trim()].default
+        return "default"
     }
 
     /**
@@ -245,7 +246,6 @@ export default class NextPage
     isViewQueryTagged(type,node)
     {
         let result = this.ViewTypes[type].tagged(node)
-
         if(!result)
             return false
 
@@ -276,18 +276,26 @@ export default class NextPage
 
         if(result instanceof Number)
         return -3
-
+        
         else if(query == "tagged")
         result = this.ViewTypes[info.type].tagged(node)
 
+        else if(query == "default")
+        result = this.ViewTypes[info.type].default(node)
+        
         else 
         result = this.executeQuery(info.type,query,node,DOM)
+
+        if(result)
+        result = this.ViewTypes[info.type].filter(result)
 
         // Get Basic properties from result query
         const basics = this.getBasicPropertiesForNode(node)
 
         // if(info.view == "article")
-        result = {...result,...basics}
+        result = {result,...basics,view:info.type}
+
+        // console.debug(result)
 
         result = this.addFallbackProperties(result,DOM)
 
@@ -316,34 +324,29 @@ export default class NextPage
     }
 
     executeQuery(type,query,node,DOM)
-    {
+    {   
         let targetNode = node;
         let activeQuery = query
-        let filteredResults
 
         if(!query)
-        return {type:type,result:null}
-    
+        return false
+
         if(query.startsWith(QueryOperators.global))
         {
             targetNode = DOM
             activeQuery = query.slice(2)
         }
         
-        let queryResult
+        let result
 
 
         if(activeQuery.trim() != "")
-        queryResult = targetNode.querySelectorAll(activeQuery)
+        result = targetNode.querySelectorAll(activeQuery)
         
 
-        if(!queryResult)
-        filteredResults = false
+        if(!result)
+        return false
 
-        else 
-        filteredResults = this.ViewTypes[type].filter(queryResult)
-
-        let result = {type:type,result:filteredResults}
         return result
 
     }

@@ -4,9 +4,12 @@ import Informational from "../util/Informational"
 const BasicView = 
 {
     name:"basic",
-    default:false,
     titleLimit:60,
     descriptionLimit:100,
+    default:function(node)
+    {
+        return false
+    },
     
     tagged:function (node)
     {
