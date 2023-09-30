@@ -49,9 +49,97 @@
 
 
     <article
-    id="for-article"
-    np-for="for-article"
+    id="for-article-query"
+    np-for="for-article-query"
     np-view="article >> #for-article > p">
     </article>
+
+    <article
+    id="for-article-header"
+    np-for="for-article-header"
+    np-view="article">
+    </article>
+
+
+    <div
+    id="for-image"
+    np-for="for-image"
+    np-view="image">
+
+    <h1>List of all images</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore suscipit, aperiam, perferendis reiciendis molestias incidunt perspiciatis voluptatem expedita vero eveniet amet asperiores at neque impedit necessitatibus, tempora dolores? Tenetur, pariatur.</p>
+
+    <img src="./link/to/image.png" alt="">
+    </div>
+
+
+    <div
+    id="for-image-tagged"
+    np-for="for-image-tagged"
+    np-view="image">
+
+    <h1>List of all images</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore suscipit, aperiam, perferendis reiciendis molestias incidunt perspiciatis voluptatem expedita vero eveniet amet asperiores at neque impedit necessitatibus, tempora dolores? Tenetur, pariatur.</p>
+
+    <div>
+        <img np-image src="./link/to/image-tagged.png" alt="">
+    </div>
+    </div>
+
+    <div
+    id="for-image-attribute"
+    np-for="for-image-attribute"
+    np-view="image">
+
+    <h1>List of all images</h1>
+    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Inventore suscipit, aperiam, perferendis reiciendis molestias incidunt perspiciatis voluptatem expedita vero eveniet amet asperiores at neque impedit necessitatibus, tempora dolores? Tenetur, pariatur.</p>
+
+    <div>
+        <img np-img="./link/to/image-attribute.png" src="./link/to/image.png" alt="">
+    </div>
+    </div>
+
+
+    <div
+    id="for-image-query"
+    np-for="for-image-query"
+    np-view="image >> #for-image > img">
+    </div>
+
+
+
+    <div class="for-image-grid"
+    np-for="for-image-grid"
+    np-view="image.grid">
+        <img src="./link/to/image1" alt="">
+        <img src="./link/to/image2" alt="">
+        <img src="./link/to/image3" alt="">
+        <img src="./link/to/image4" alt="">
+        <img src="./link/to/image5" alt="">
+        <img src="./link/to/image6" alt="">
+        <img src="./link/to/image7" alt="">
+    </div>
+
+
+    <div id="for-image-grid-attributes"
+    np-for="for-image-grid-attributes"
+    np-view="image.grid">
+        <img np-img="./link/to/image/attribute1.png" src="./link/to/image1" alt="">
+        <img np-img="./link/to/image/attribute2.png" src="./link/to/image2" alt="">
+        <img np-img="./link/to/image/attribute3.png" src="./link/to/image3" alt="">
+        <img np-img="./link/to/image/attribute4.png" src="./link/to/image4" alt="">
+        <img np-img="./link/to/image/attribute5.png" src="./link/to/image5" alt="">
+        <img np-img="./link/to/image/attribute6.png" src="./link/to/image6" alt="">
+        <img np-img="./link/to/image/attribute7.png" src="./link/to/image7" alt="">
+    </div>
+
+
+    <div
+    id="for-image-grid-query"
+    np-for="for-image-grid-query"
+    np-view="image.grid >> #for-image-grid-attributes > img">
+    </div>
+
+
 </body>
 </html>

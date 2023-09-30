@@ -6,7 +6,7 @@ const PAGE = await NP.getWebpage("www.html")
 const DOM = NP.toDOM(PAGE)
 
 // Operations clients are must likely to use the most.
-describe.skip("Client Interfaces", () => 
+describe("Client Interfaces", () => 
 {
     it("Get Node Result ", async ()=>
     {
@@ -37,10 +37,10 @@ describe.skip("Client Interfaces", () =>
 
     it("Get Node Defined Header Properties", async ()=>
     {
-        const data = await NP.get("www.html","for-article-headers")
+        const data = await NP.get("www.html","for-article-header")
         
-        expect(data.description).toContain("#for-article-headers");
-        expect(data.title).toContain("#for-article-headers");
+        expect(data.title).toMatch(/^Header np-/);
+        expect(data.description).toMatch(/^Header np-/);
 
     })
 
