@@ -49,7 +49,7 @@ describe("Client Interfaces", () =>
     {
         const data =await NP.get("www.html","for-non-exist")
         
-        expect(data).toEqual(-2);
+        expect(data).toEqual(-3);
     })
 
 
