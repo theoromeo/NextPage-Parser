@@ -55,7 +55,7 @@ export default class NextPage
             return viewData
         
         }
-        console.debug(DOM)
+
         const headers = this.getHeaderProperties(DOM)
         
         if(!headers)
@@ -473,7 +473,16 @@ export default class NextPage
         title = title.getAttribute('content')
         
         if(!title)
-        title = head.getElementsByTagName("title")[0].textContent
+        {
+            let titleElement = head.querySelector("title")
+            let value = false
+
+            if(titleElement)
+            value = titleElement.textContent
+
+            if(value && value.trim() != "")
+            title = value
+        }
         
         if(!title)
         return false
