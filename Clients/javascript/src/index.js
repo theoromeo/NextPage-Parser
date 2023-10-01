@@ -515,20 +515,24 @@ export default class NextPage
      */   
     getFallbackIcon(head)
     {        
-        let icon = head.querySelector(`meta[name="${Informational.icon}"]`)
-        
-        if(icon)
-        icon = icon.getAttribute('content')
+        let iconElement = head.querySelector(`meta[name="${Informational.icon}"]`)
+        let value = ''
 
-        if(!icon)
-        icon = head.querySelector(`link[rel="icon"]`)
+        if(iconElement)
+        value = iconElement.getAttribute('content')
+
+        if(value.trim() != "")
+        return value
+
+
+        iconElement = head.querySelector(`link[rel="icon"]`)
         
-        if(icon)
-        icon = icon.getAttribute('href')
+        if(iconElement)
+        value = iconElement.getAttribute('href')
         
-        if(!icon)
+        if(value.trim() != "")
+        return value
+
         return false
-
-        return icon
     }
 }
