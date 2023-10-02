@@ -6,7 +6,7 @@ import ArticleView from "./views/ArticleView.js"
 import ImageView from "./views/ImageView.js"
 import ImageGridView from "./views/ImageGridView.js"
 import QueryOperators from "./util/QueryOperators.js"
-import FallbackLimits from "./util/FallbackLimits.js"
+import Fallback from "./util/Fallback.js"
 export default class NextPage
 {
     ViewTypes = {}
@@ -309,7 +309,7 @@ export default class NextPage
 
         // console.debug(result)
 
-        result = this.addFallbackProperties(result,DOM)
+        result = Fallback.getFallbacks(result,DOM)
 
         return result
     }
@@ -328,9 +328,9 @@ export default class NextPage
         // if(!head)
         // return -1
 
-        const icon = this.getFallbackIcon(head)
-        const title = this.getFallbackTitle(head)
-        const description = this.getFallbackDescription(head)
+        const icon = Fallback.getIcon(head)
+        const title = Fallback.getTitle(head)
+        const description = Fallback.getDescription(head)
         
         return {icon:icon,title:title,description:description}
     }
@@ -428,111 +428,5 @@ export default class NextPage
         return result
     }
 
-    /**
-     * 
-     * @param {object} element - View results
-     * @param {string} dom - Webpage string
-     * @returns {(Object|Number)}
-     * - Properties with fallbacks
-     * - -1 if dom passed did not contain head tag
-     */
-    addFallbackProperties(preResults, DOM)
-    {
-        const head = DOM.querySelector("head")
-        if(!head)
-        return -2
 
-        let result = preResults
-
-        if(!result.title)
-        {
-            result.title = this.getFallbackTitle(head)
-        }
-
-        if(!result.description)
-        {
-            result.description = this.getFallbackDescription(head)
-        }
-
-        if(!result.icon)
-        {
-            result.icon = this.getFallbackIcon(head)
-        }
-
-        return result
-    }
-    /**
-     * @param {Node} head 
-     * @returns {String} Fallback value
-     */
-    getFallbackTitle(head)
-    {
-        let title = head.querySelector(`meta[name="${Informational.title}"]`)
-
-        if(title)
-        title = title.getAttribute('content')
-        
-        if(!title)
-        {
-            let titleElement = head.querySelector("title")
-            let value = false
-
-            if(titleElement)
-            value = titleElement.textContent
-
-            if(value && value.trim() != "")
-            title = value
-        }
-        
-        if(!title)
-        return false
-
-        return title.slice(0,FallbackLimits.title)
-
-
-    }
-
-    /**
-     * @param {Node} head 
-     * @returns {String} Fallback value
-     */
-    getFallbackDescription(head)
-    {
-        let description = head.querySelector(`meta[name="${Informational.description}"]`)
-
-        if(description)
-        description = description.getAttribute('content')
-        
-        if(!description)
-        return false
-
-        return description.slice(0,FallbackLimits.description)
-    }
-    
-    /**
-     * @param {Node} head 
-     * @returns {String} Fallback value
-     */   
-    getFallbackIcon(head)
-    {        
-        let iconElement = head.querySelector(`meta[name="${Informational.icon}"]`)
-        let value = ''
-
-        if(iconElement)
-        value = iconElement.getAttribute('content')
-
-        if(value.trim() != "")
-        return value
-
-
-        iconElement = head.querySelector(`link[rel="icon"]`)
-        
-        if(iconElement)
-        value = iconElement.getAttribute('href')
-        
-        if(value.trim() != "")
-        return value
-
-        return false
-    }
 }
