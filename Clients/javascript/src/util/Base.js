@@ -167,43 +167,56 @@ const Base =
 
         if(meta)
         {
-            let value = meta.getAttribute(Informationals.action)
+            let value = meta.getAttribute("content")
 
             if(value && value.trim() != "" && value != Informationals.action)
             result = value
         }
 
+
         let element = node.querySelector(`link[${Informationals.action}]`)
 
-        if(element)
+        if(!result && element)
         {
             let attribute = element.getAttribute(Informationals.action)
 
             if(attribute && attribute.trim() != "" && attribute != Informationals.action)
             result = attribute
 
-            let src = element.getAttribute("src")
-            if(src && src.trim() != "" && src != Informationals.action)
-            result = src
+
+            if(!result)
+            {
+                
+                let src = element.getAttribute("href")
+
+                if(src && src.trim() != "")
+                result = src
+
+            }
+
         }
 
         if(result)
         {
-            if(result.contains(":"))
+            let value = []
+            if(result.includes(">"))
             {
-                let parts = result.contains(":")
-                result.label = parts[0]
-                result.url = parts[1]
+                let parts = result.split(">")
+                value.label = parts[0].trim()
+                value.url = parts[1].trim()
+
+                return {...value}
+
             }
 
-            else 
-            {
-                result.label = false
-                result.url = result
-            }
+            value.label = false
+            value.url = result
+            return {...value}
+            
         }
 
-        return result
+        return false
+        
     },
 
     getAll(DOM)
