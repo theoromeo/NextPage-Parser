@@ -247,6 +247,8 @@ Up to 100 characters.
 - `np-title` - define a title for the node <br>
 Up to 35 characters
 
+- `np-video` - define a video for the node <br>
+
 | Properties        |      Format   | 
 |-------------------|:--------------|
 | `np-p`            | String        | 
@@ -255,6 +257,7 @@ Up to 35 characters
 | `np-icon`         | URL           |
 | `np-description`  | String        |
 | `np-title`        | String        |
+| `np-video`        | URL        |
 
 > ❕ **Note:**<br>
 Nodes only invoke informational properties where the property's immediate parent node is itself.
