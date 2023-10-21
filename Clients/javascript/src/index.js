@@ -56,7 +56,7 @@ export default class NextPage
         
         }
 
-        const headers = this.getHeaderProperties(DOM)
+        const headers = Fallback.getAll(DOM)
         
         if(!headers)
         return -5
@@ -284,7 +284,7 @@ export default class NextPage
         const query = info.query
 
         if(!query)
-        result = this.getHeaderProperties(DOM)
+        result = Fallback.getAll(DOM)
 
         if(result instanceof Number)
         return -3
@@ -304,10 +304,8 @@ export default class NextPage
         // Get Basic properties from result query
         const basics = this.getBasicPropertiesForNode(node)
 
-        // if(info.view == "article")
         result = {result,...basics,view:info.type}
 
-        // console.debug(result)
 
         result = Fallback.getFallbacks(result,DOM)
 
@@ -369,10 +367,12 @@ export default class NextPage
         const titleElement = node.querySelector(`[${Informational.title}]`)
         const descriptionElement = node.querySelector(`[${Informational.description}]`)
         const iconElement = node.querySelector(`[${Informational.icon}]`)
+        const actionElement = node.querySelector(`[${Informational.action}]`)
 
         let titleValue = false,
         descriptionValue=false,
-        iconValue =false
+        iconValue =false,
+        actionValue =false
 
         if(titleElement)
         {
@@ -414,6 +414,22 @@ export default class NextPage
             iconValue = value
         }
 
+        if(actionElement)
+        {
+            let value =  actionElement.getAttribute(Informational.action)
+
+            if(value != Informational.action && value.trim != "")
+            actionValue = value
+
+            else
+            {
+                value = actionElement.getAttribute('href')
+
+                if(value.trim != "")
+                actionValue = value
+            }
+        }
+
         let result = []
 
         if(titleValue)
@@ -424,6 +440,9 @@ export default class NextPage
 
         if(iconValue)
         result.icon = iconValue
+
+        if(actionValue)
+        result.action = actionValue
 
         return result
     }

@@ -1,5 +1,9 @@
 import Informational from "./Informational"
 
+/**
+ * Holds Operations for retrieving fallback values
+ * @constant
+ */
 const Fallback = 
 {
     getFallbacks: function (preResults, DOM)
@@ -87,6 +91,33 @@ const Fallback =
         return value
 
         return false
+    },
+
+    getAction:function(node) 
+    {
+        let action = node.querySelector(`meta[name="${Informational.action}"]`)
+
+        if(action)
+        action = action.getAttribute('content')
+        
+        if(!action)
+        return false
+
+        return action
+    },
+
+    getAll(node)
+    {
+        const head = node.querySelector("head")
+        // if(!head)
+        // return -1
+
+        const icon = Fallback.getIcon(head)
+        const title = Fallback.getTitle(head)
+        const description = Fallback.getDescription(head)
+        const action = Fallback.getAction(head)
+        
+        return {icon:icon,title:title,description:description,action:action}
     },
 
 }
