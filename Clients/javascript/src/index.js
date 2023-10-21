@@ -7,7 +7,7 @@ import ImageView from "./views/ImageView.js"
 import ImageGridView from "./views/ImageGridView.js"
 import QueryOperators from "./util/QueryOperators.js"
 import Fallback from "./util/Fallback.js"
-import VideoView from "./views/VideoView.js"
+import VideoView from "./views/videoView.js"
 export default class NextPage
 {
     ViewTypes = {}
@@ -309,7 +309,7 @@ export default class NextPage
         result = {result,...basics,view:info.type}
 
 
-        result = Fallback.getFallbacks(result,DOM)
+        result = Fallback.appendFallbacks(result,DOM)
 
         return result
     }

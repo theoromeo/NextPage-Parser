@@ -1,12 +1,12 @@
 import Informational from "./Informational"
 
 /**
- * Holds Operations for retrieving fallback values
+ * Holds Operations for retrieving fallback values.
  * @constant
  */
 const Fallback = 
 {
-    getFallbacks: function (preResults, DOM)
+    appendFallbacks: function (preResults, DOM)
     {
         const head = DOM.querySelector("head")
         if(!head)
@@ -29,95 +29,171 @@ const Fallback =
             result.icon = this.getIcon(head)
         }
 
+        if(!result.action)
+        {
+            result.action = this.getAction(head)
+        }
+
         return result
     },
 
     getTitle:function(node) 
     {
-        let title = node.querySelector(`meta[name="${Informational.title}"]`)
+        let result = false;
 
-        if(title)
-        title = title.getAttribute('content')
-        
-        if(!title)
+        let meta = node.querySelector(`meta[name="${Informational.title}"]`)
+
+        if(!result && meta)
         {
-            let titleElement = node.querySelector("title")
-            let value = false
+            let attribute = meta.getAttribute('content')
 
-            if(titleElement)
-            value = titleElement.textContent
-
-            if(value && value.trim() != "")
-            title = value
+            if(attribute && attribute.trim() != "")
+            result = attribute
         }
-        
-        if(!title)
-        return false
 
-        return title.slice(0,FallbackLimits.title)
+
+        let tag = node.querySelector("title")
+
+        if(!result && tag)
+        {
+            let content = tag.textContent
+
+            if(content && content.trim() != "")
+            result = content
+        }
+
+
+        let element = node.querySelector(`[${Informational.title}]`)
+
+        if(!result && element)
+        {
+            let attribute = element.getAttribute(Informational.title)
+
+            if(attribute && attribute.trim() != "" && attribute != Informational.title )
+            result = attribute
+
+            let content = element.textContent
+            
+            if(content && content.trim() != "")
+            result = content
+        }
+
+        if(result)
+        return result.slice(0,FallbackLimits.title)
+
+        return false
     },
 
     getDescription:function(node) 
     {
-        let description = node.querySelector(`meta[name="${Informational.description}"]`)
+        let result = false
+        let meta = node.querySelector(`meta[name="${Informational.description}"]`)
 
-        if(description)
-        description = description.getAttribute('content')
+        if(!result && meta)
+        {
+            let content = meta.getAttribute('content')
+            
+            if(content && content.trim() != "")
+            result = content
+        }
+
+
+        if(result)
+        return result.slice(0,FallbackLimits.description)
+
+        return result
         
-        if(!description)
-        return false
-
-        return description.slice(0,FallbackLimits.description)
+       
     },
 
     getIcon:function(node) 
     {
-        let iconElement = node.querySelector(`meta[name="${Informational.icon}"]`)
-        let value = ''
+        let meta = node.querySelector(`meta[name="${Informational.icon}"]`)
 
-        if(iconElement)
-        value = iconElement.getAttribute('content')
+        if(meta)
+        {
+            let content = meta.getAttribute("content")
 
-        if(value.trim() != "")
-        return value
+            if(content && content.trim() != "")
+            return content
+        }
 
+        let link = node.querySelector(`link[rel="icon"]`)
 
-        iconElement = node.querySelector(`link[rel="icon"]`)
-        
-        if(iconElement)
-        value = iconElement.getAttribute('href')
-        
-        if(value.trim() != "")
-        return value
+        if(link)
+        {
+            let href = link.getAttribute('href')
+
+            if(href && href.trim() != "")
+            return href
+        }
+
+        let element = node.querySelector(`[${Informational.icon}]`)
+
+        if(element)
+        {
+            let value = element.getAttribute(Informational.icon)
+
+            if(value && value.trim() != ""  && value != Informational.icon)
+            return value
+        }
 
         return false
     },
 
     getAction:function(node) 
     {
-        let action = node.querySelector(`meta[name="${Informational.action}"]`)
+        let result = false
+        let meta = node.querySelector(`meta[name="${Informational.action}"]`)
 
-        if(action)
-        action = action.getAttribute('content')
-        
-        if(!action)
-        return false
+        if(meta)
+        {
+            let value = meta.getAttribute(Informational.action)
 
-        return action
+            if(value && value.trim() != "" && value != Informational.action)
+            result = value
+        }
+
+        let element = node.querySelector(`link[${Informational.action}]`)
+
+        if(element)
+        {
+            let attribute = element.attribute(Informational.action)
+
+            if(attribute && attribute.trim() != "" && attribute != Informational.action)
+            result = attribute
+
+            let src = element.attribute("src")
+            if(src && src.trim() != "" && src != Informational.action)
+            result = src
+        }
+
+        if(result)
+        {
+            if(result.contains(":"))
+            {
+                let parts = result.contains(":")
+                result.label = parts[0]
+                result.url = parts[1]
+            }
+
+            else 
+            {
+                result.label = false
+                result.url = result
+            }
+        }
+
+        return result
     },
 
     getAll(node)
-    {
-        const head = node.querySelector("head")
-        // if(!head)
-        // return -1
-
-        const icon = Fallback.getIcon(head)
-        const title = Fallback.getTitle(head)
-        const description = Fallback.getDescription(head)
-        const action = Fallback.getAction(head)
-        
-        return {icon:icon,title:title,description:description,action:action}
+    {   
+        return {
+            icon:this.getIcon(node),
+            title:this.getTitle(node),
+            description:this.getDescription(node),
+            action:this.getAction(node)}
     },
 
 }
