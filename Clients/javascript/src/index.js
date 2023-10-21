@@ -291,7 +291,7 @@ export default class NextPage
         if(typeof result == "number")
         return -3
         
-        else if(query == "tagged")
+        if(query == "tagged")
         result = this.ViewTypes[info.type].tagged(node)
 
         else if(query == "default")
