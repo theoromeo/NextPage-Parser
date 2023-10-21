@@ -131,6 +131,7 @@
         <img np-img="./link/to/image/attribute5.png" src="./link/to/image5" alt="">
         <img np-img="./link/to/image/attribute6.png" src="./link/to/image6" alt="">
         <img np-img="./link/to/image/attribute7.png" src="./link/to/image7" alt="">
+        <link np-action rel="stylesheet" href="link/to/action.html">
     </div>
 
 
@@ -138,6 +139,27 @@
     id="for-image-grid-query"
     np-for="for-image-grid-query"
     np-view="image.grid >> #for-image-grid-attributes > img">
+    </div>
+
+    <div
+    id="for-video"
+    np-for="for-video"
+    np-view="video">
+    <video np-video src="./link/to/video.mp4"></video>
+    </div>
+
+
+    <div
+    id="for-video-attribute"
+    np-for="for-video-attribute"
+    np-view="video">
+    <video np-video="./link/to/video-attribute.mp4" src="./link/to/video.mp4"></video>
+    </div>
+
+    <div
+    id="for-video-query"
+    np-for="for-video-query"
+    np-view="video >> #for-video-attribute > video">
     </div>
 
 

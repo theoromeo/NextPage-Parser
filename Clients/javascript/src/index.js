@@ -7,12 +7,14 @@ import ImageView from "./views/ImageView.js"
 import ImageGridView from "./views/ImageGridView.js"
 import QueryOperators from "./util/QueryOperators.js"
 import Fallback from "./util/Fallback.js"
+import VideoView from "./views/VideoView.js"
 export default class NextPage
 {
     ViewTypes = {}
 
     constructor()
     {
+        this.ViewTypes[VideoView.name] = VideoView
         this.ViewTypes[BasicView.name] = BasicView
         this.ViewTypes[ArticleView.name] = ArticleView
         this.ViewTypes[ImageView.name] = ImageView
@@ -46,7 +48,7 @@ export default class NextPage
             return -3
 
             const viewInformation = this.getViewInformation(node)
-
+            
             if(typeof viewInformation == "number")
             return -4
 

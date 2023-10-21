@@ -6,6 +6,7 @@ const Informational =
     "icon": 'np-icon',
     "action": 'np-action',
     "img": 'np-img',
+    "video": 'np-video',
 }
 
 export default Informational;

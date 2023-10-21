@@ -140,3 +140,30 @@ describe("Image.grid View" , () =>
 
     })
 })
+
+
+
+describe("Video View" , () => 
+{
+    it("Content Value" , async () => 
+    {
+        const data = await NP.get("www.html","for-video")
+
+        expect(data.result).toContain("./link/to/video.mp4")
+    })
+
+    it("Attribute Value" , async () => 
+    {
+        const data = await NP.get("www.html","for-video-attribute")
+
+        expect(data.result).toContain("./link/to/video-attribute.mp4")
+    })
+
+    it("Query Value" , async () => 
+    {
+        const data = await NP.get("www.html","for-video-query")
+
+        expect(data.result).toContain("./link/to/video-attribute.mp4")
+    })
+})
+
