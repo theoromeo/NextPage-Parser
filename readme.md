@@ -30,6 +30,7 @@ Views are elements that display information to a client in a certain layout.
 - article - Contains a `basic view` + 1 to 3 paragraphs.
 - image - Contains a `basic view` + 1 image.
 - image.grid - Contains a `basic view` + 2 to 6 images.
+- video - Contains a `basic view` + 1 video.
 
 #### Properties defined in head
 NP attributes defined in the head follow the structure `name="np-{property}" content="{value}"`
@@ -126,7 +127,10 @@ By default, views will look at the children of their element to find their data.
 
 - image.grid - will query for `"Element > img"` and retrieve the first 6 instances. if only one image is found, the `image.grid view` will invoke the `image view`.
 
+- video - will query for `"Element > video"` and retrieve the first instance.
+
 - basic - Will look for `Information Properties` to find its data; if no property is defined in the node, the head properties are used.
+
 
 ### Defined view queries
 If you define [informational properties](#informational-properties) inside the node but outside its children nodes.
@@ -136,6 +140,8 @@ If you define [informational properties](#informational-properties) inside the n
 - image - will query for `"Element [np-img]"` and retrieve the first instance.
 
 - image.grid - will query for `"Element [np-img]"` and retrieve the first 6 instances. if only one image is found, the `image.grid view` will invoke the `image view`.
+
+- video - will query for `"Element [np-video]"` and retrieve the first instance.
 
 - basic - Will look for [Information Properties](#informational-properties) to find its data; if no property is defined in the node, the head properties are used.
 
