@@ -288,7 +288,7 @@ export default class NextPage
         if(!query)
         result = Fallback.getAll(DOM)
 
-        if(result instanceof Number)
+        if(typeof result == "number")
         return -3
         
         else if(query == "tagged")
