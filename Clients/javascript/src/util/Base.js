@@ -1,12 +1,15 @@
+import ArticleView from "../views/ArticleView"
 import Informational from "./Informational"
-
 /**
  * Holds Operations for retrieving fallback values.
  * @constant
  */
-const Fallback = 
+const Base = 
 {
-    appendFallbacks: function (preResults, DOM)
+    titleLimit: 80,
+    descriptionLimit: 200,
+
+    appendMissing: function (preResults, DOM)
     {
         const head = DOM.querySelector("head")
         if(!head)
@@ -79,7 +82,7 @@ const Fallback =
         }
 
         if(result)
-        return result.slice(0,FallbackLimits.title)
+        return result.slice(0,this.titleLimit)
 
         return false
     },
@@ -97,9 +100,26 @@ const Fallback =
             result = content
         }
 
+        let elements = node.querySelectorAll(`[${Informational.description}]`)
+
+        if(!result && elements)
+        {
+            let value = ''
+
+            for (let index = 0; index < elements.length; index++) 
+            {
+             const element = elements[index];
+             if(element.textContent.trim() != '')
+             value += element.textContent +"<br>"  
+            }
+
+            if(value != '')
+            result = value
+        }
+
 
         if(result)
-        return result.slice(0,FallbackLimits.description)
+        return result.slice(0,this.descriptionLimit)
 
         return result
         
@@ -158,12 +178,12 @@ const Fallback =
 
         if(element)
         {
-            let attribute = element.attribute(Informational.action)
+            let attribute = element.getAttribute(Informational.action)
 
             if(attribute && attribute.trim() != "" && attribute != Informational.action)
             result = attribute
 
-            let src = element.attribute("src")
+            let src = element.getAttribute("src")
             if(src && src.trim() != "" && src != Informational.action)
             result = src
         }
@@ -187,21 +207,11 @@ const Fallback =
         return result
     },
 
-    getAll(node)
+    getAll(DOM)
     {   
-        return {
-            icon:this.getIcon(node),
-            title:this.getTitle(node),
-            description:this.getDescription(node),
-            action:this.getAction(node)}
+        return this.appendMissing({},DOM)
     },
 
 }
 
-export const FallbackLimits = 
-{
-    title:80,
-    description:200,
-}
-
-export default Fallback
+export default Base

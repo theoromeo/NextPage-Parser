@@ -6,8 +6,8 @@ import ArticleView from "./views/ArticleView.js"
 import ImageView from "./views/ImageView.js"
 import ImageGridView from "./views/ImageGridView.js"
 import QueryOperators from "./util/QueryOperators.js"
-import Fallback from "./util/Fallback.js"
-import VideoView from "./views/videoView.js"
+import Base from "./util/Base.js"
+import VideoView from "./views/VideoView.js"
 export default class NextPage
 {
     ViewTypes = {}
@@ -58,7 +58,7 @@ export default class NextPage
         
         }
 
-        const headers = Fallback.getAll(DOM)
+        const headers = Base.getAll(DOM)
         
         if(!headers)
         return -5
@@ -286,7 +286,7 @@ export default class NextPage
         const query = info.query
 
         if(!query)
-        result = Fallback.getAll(DOM)
+        result = Base.getAll(DOM)
 
         if(typeof result == "number")
         return -3
@@ -304,36 +304,16 @@ export default class NextPage
         result = this.ViewTypes[info.type].filter(result)
 
         // Get Basic properties from result query
-        const basics = this.getBasicPropertiesForNode(node)
+        const base = this.getNodeBaseProperties(node)
 
-        result = {result,...basics,view:info.type}
+        result = {result,...base,view:info.type}
 
 
-        result = Fallback.appendFallbacks(result,DOM)
+        result = Base.appendMissing(result,DOM)
 
         return result
     }
 
-    /**
-     * 
-     * @param {Document} DOM - webpage dom
-     * @returns {(object|Number)} 
-     * - Object containing the title, description and icon
-     * - -1 if no head found in dom
-     * - -2 if title or description was empty
-     */
-    getHeaderProperties(DOM)
-    {
-        const head = DOM.querySelector("head")
-        // if(!head)
-        // return -1
-
-        const icon = Fallback.getIcon(head)
-        const title = Fallback.getTitle(head)
-        const description = Fallback.getDescription(head)
-        
-        return {icon:icon,title:title,description:description}
-    }
 
     executeQuery(type,query,node,DOM)
     {   
@@ -361,6 +341,31 @@ export default class NextPage
 
         return result
 
+    }
+
+    getHeadBaseProperties(DOM)
+    {
+        let head = DOM.querySelector('head')
+
+        if(!head)
+        return -1
+
+        return {
+            title:Base.getTitle(head),
+            description:Base.getDescription(head),
+            icon:Base.getIcon(head),
+            action:Base.getAction(head),
+        }
+
+    }
+    getNodeBaseProperties(node)
+    {
+        return {
+            title:Base.getTitle(node),
+            description:Base.getDescription(node),
+            icon:Base.getIcon(node),
+            action:Base.getAction(node),
+        }
     }
 
 
