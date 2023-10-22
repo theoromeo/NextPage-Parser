@@ -1,4 +1,4 @@
-import Informational from "../util/Informational";
+import Informationals from "../util/Informationals.js";
 import { DOMParser} from 'xmldom-qsa'
 
 const ArticleView = 
@@ -24,7 +24,7 @@ const ArticleView =
 
     tagged:function(node)
     {
-        let elements = node.querySelectorAll(`[${Informational.p}]`)
+        let elements = node.querySelectorAll(`[${Informationals.p}]`)
 
         if(elements.length == 0)
         return false

@@ -1,4 +1,4 @@
-const Informational = 
+const Informationals = 
 {
     "p": 'np-p',
     "description": 'np-description',
@@ -9,4 +9,4 @@ const Informational =
     "video": 'np-video',
 }
 
-export default Informational;
+export default Informationals;

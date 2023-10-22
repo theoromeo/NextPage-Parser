@@ -1,4 +1,4 @@
-import Informational from "../util/Informational";
+import Informationals from "../util/Informationals.js";
 
 const VideoView = 
 {
@@ -24,7 +24,7 @@ const VideoView =
 
     tagged:function(node)
     {
-        let elements = node.querySelector(`[${Informational.video}]`)
+        let elements = node.querySelector(`[${Informationals.video}]`)
 
         if(!elements)
         return false
@@ -42,8 +42,8 @@ const VideoView =
             {
                 const element = queryResult[index];
                 
-                let value = element.getAttribute(Informational.video)
-                if(value != Informational.video && value.trim() != "")
+                let value = element.getAttribute(Informationals.video)
+                if(value != Informationals.video && value.trim() != "")
                 {
                     result = value
                     break
@@ -53,8 +53,8 @@ const VideoView =
 
         else 
         {
-            let value = queryResult.getAttribute(Informational.video)
-            if(value != Informational.video && value.trim() != "")
+            let value = queryResult.getAttribute(Informationals.video)
+            if(value != Informationals.video && value.trim() != "")
             {
                 result = value
             }

@@ -1,4 +1,4 @@
-import Informational from "../util/Informational";
+import Informationals from "../util/Informationals.js";
 
 const ImageView = 
 {
@@ -16,7 +16,7 @@ const ImageView =
     
     tagged:function(node)
     {
-        const element = node.querySelector(`[${Informational.img}]`)
+        const element = node.querySelector(`[${Informationals.img}]`)
 
         if(!element)
         return false
@@ -41,11 +41,11 @@ const ImageView =
                 if(element.tagName != "img")
                 return true
 
-                if(element.getAttribute(Informational.img))
+                if(element.getAttribute(Informationals.img))
                 {
 
-                    let value = element.getAttribute(Informational.img)
-                    if(value.trim() == "" || value == Informational.img)
+                    let value = element.getAttribute(Informationals.img)
+                    if(value.trim() == "" || value == Informationals.img)
                     return true
 
                     result = value

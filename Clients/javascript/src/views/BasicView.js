@@ -1,4 +1,4 @@
-import Informational from "../util/Informational"
+import Informationals from "../util/Informationals.js"
 
 
 const BasicView = 
@@ -19,24 +19,24 @@ const BasicView =
             description:""
         }
 
-        const elementTitle = node.querySelector(`[${Informational.title}]`)
-        const elementDescription = node.querySelector(`[${Informational.description}]`)
+        const elementTitle = node.querySelector(`[${Informationals.title}]`)
+        const elementDescription = node.querySelector(`[${Informationals.description}]`)
 
         if(!elementTitle || !elementDescription)
         return false
 
-        const attributeTitle = elementTitle.getAttribute(Informational.title)
-        const attributeDescription = elementDescription.getAttribute(Informational.description)
+        const attributeTitle = elementTitle.getAttribute(Informationals.title)
+        const attributeDescription = elementDescription.getAttribute(Informationals.description)
 
         // Title
-        if(attributeTitle != Informational.title && attributeTitle.trim() != "")
+        if(attributeTitle != Informationals.title && attributeTitle.trim() != "")
         result.title = attributeTitle
 
         else
         result.title = elementTitle.textContent
 
         // Description
-        if(attributeDescription != Informational.description && attributeDescription.trim() != "")
+        if(attributeDescription != Informationals.description && attributeDescription.trim() != "")
         result.description = attributeDescription
 
         else

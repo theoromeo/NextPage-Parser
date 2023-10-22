@@ -1,4 +1,4 @@
-import Informational from "../util/Informational";
+import Informationals from "../util/Informationals.js";
 
 const ImageGridView = 
 {
@@ -27,7 +27,7 @@ const ImageGridView =
     
     tagged:function(node)
     {
-        const elements = node.querySelectorAll(`[${Informational.img}]`).slice(0,this.limit)
+        const elements = node.querySelectorAll(`[${Informationals.img}]`).slice(0,this.limit)
 
         if(elements.length <1)
         return false
@@ -35,9 +35,9 @@ const ImageGridView =
         // elements.forEach(element => 
         // {
         //     let elementValue = element.getAttribute('src')
-        //     let attributeValue = element.getAttribute(Informational.img)
+        //     let attributeValue = element.getAttribute(Informationals.img)
 
-        //     if(attributeValue != Informational.img && attributeValue.trim() != "")
+        //     if(attributeValue != Informationals.img && attributeValue.trim() != "")
         //     result.push(attributeValue)
 
         //     else if(elementValue)
@@ -64,11 +64,11 @@ const ImageGridView =
                 if(element.tagName != "img")
                 continue
 
-                if(element.getAttribute(Informational.img))
+                if(element.getAttribute(Informationals.img))
                 {
-                    let value = element.getAttribute(Informational.img)
+                    let value = element.getAttribute(Informationals.img)
 
-                    if(value.trim() == "" || value == Informational.img)
+                    if(value.trim() == "" || value == Informationals.img)
                     continue
 
                     result.push(value)

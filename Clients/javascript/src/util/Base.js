@@ -1,5 +1,4 @@
-import ArticleView from "../views/ArticleView"
-import Informational from "./Informational"
+import Informationals from "./Informationals.js"
 /**
  * Holds Operations for retrieving fallback values.
  * @constant
@@ -44,7 +43,7 @@ const Base =
     {
         let result = false;
 
-        let meta = node.querySelector(`meta[name="${Informational.title}"]`)
+        let meta = node.querySelector(`meta[name="${Informationals.title}"]`)
 
         if(!result && meta)
         {
@@ -66,13 +65,13 @@ const Base =
         }
 
 
-        let element = node.querySelector(`[${Informational.title}]`)
+        let element = node.querySelector(`[${Informationals.title}]`)
 
         if(!result && element)
         {
-            let attribute = element.getAttribute(Informational.title)
+            let attribute = element.getAttribute(Informationals.title)
 
-            if(attribute && attribute.trim() != "" && attribute != Informational.title )
+            if(attribute && attribute.trim() != "" && attribute != Informationals.title )
             result = attribute
 
             let content = element.textContent
@@ -90,7 +89,7 @@ const Base =
     getDescription:function(node) 
     {
         let result = false
-        let meta = node.querySelector(`meta[name="${Informational.description}"]`)
+        let meta = node.querySelector(`meta[name="${Informationals.description}"]`)
 
         if(!result && meta)
         {
@@ -100,7 +99,7 @@ const Base =
             result = content
         }
 
-        let elements = node.querySelectorAll(`[${Informational.description}]`)
+        let elements = node.querySelectorAll(`[${Informationals.description}]`)
 
         if(!result && elements)
         {
@@ -128,7 +127,7 @@ const Base =
 
     getIcon:function(node) 
     {
-        let meta = node.querySelector(`meta[name="${Informational.icon}"]`)
+        let meta = node.querySelector(`meta[name="${Informationals.icon}"]`)
 
         if(meta)
         {
@@ -148,13 +147,13 @@ const Base =
             return href
         }
 
-        let element = node.querySelector(`[${Informational.icon}]`)
+        let element = node.querySelector(`[${Informationals.icon}]`)
 
         if(element)
         {
-            let value = element.getAttribute(Informational.icon)
+            let value = element.getAttribute(Informationals.icon)
 
-            if(value && value.trim() != ""  && value != Informational.icon)
+            if(value && value.trim() != ""  && value != Informationals.icon)
             return value
         }
 
@@ -164,27 +163,27 @@ const Base =
     getAction:function(node) 
     {
         let result = false
-        let meta = node.querySelector(`meta[name="${Informational.action}"]`)
+        let meta = node.querySelector(`meta[name="${Informationals.action}"]`)
 
         if(meta)
         {
-            let value = meta.getAttribute(Informational.action)
+            let value = meta.getAttribute(Informationals.action)
 
-            if(value && value.trim() != "" && value != Informational.action)
+            if(value && value.trim() != "" && value != Informationals.action)
             result = value
         }
 
-        let element = node.querySelector(`link[${Informational.action}]`)
+        let element = node.querySelector(`link[${Informationals.action}]`)
 
         if(element)
         {
-            let attribute = element.getAttribute(Informational.action)
+            let attribute = element.getAttribute(Informationals.action)
 
-            if(attribute && attribute.trim() != "" && attribute != Informational.action)
+            if(attribute && attribute.trim() != "" && attribute != Informationals.action)
             result = attribute
 
             let src = element.getAttribute("src")
-            if(src && src.trim() != "" && src != Informational.action)
+            if(src && src.trim() != "" && src != Informationals.action)
             result = src
         }
 

@@ -1,5 +1,5 @@
 import Definitions from "./util/Definitions.js"
-import Informational from "./util/Informational.js"
+import Informationals from "./util/Informationals.js"
 import { DOMParser , XMLSerializer } from 'xmldom-qsa'
 import BasicView from "./views/BasicView.js"
 import ArticleView from "./views/ArticleView.js"
@@ -371,10 +371,10 @@ export default class NextPage
 
     getBasicPropertiesForNode(node)
     {
-        const titleElement = node.querySelector(`[${Informational.title}]`)
-        const descriptionElement = node.querySelector(`[${Informational.description}]`)
-        const iconElement = node.querySelector(`[${Informational.icon}]`)
-        const actionElement = node.querySelector(`[${Informational.action}]`)
+        const titleElement = node.querySelector(`[${Informationals.title}]`)
+        const descriptionElement = node.querySelector(`[${Informationals.description}]`)
+        const iconElement = node.querySelector(`[${Informationals.icon}]`)
+        const actionElement = node.querySelector(`[${Informationals.action}]`)
 
         let titleValue = false,
         descriptionValue=false,
@@ -383,9 +383,9 @@ export default class NextPage
 
         if(titleElement)
         {
-            let value =  titleElement.getAttribute(Informational.title)
+            let value =  titleElement.getAttribute(Informationals.title)
 
-            if(value != Informational.title && value.trim != "")
+            if(value != Informationals.title && value.trim != "")
             titleValue = value
 
             else
@@ -399,9 +399,9 @@ export default class NextPage
 
         if(descriptionElement)
         {
-            let value =  descriptionElement.getAttribute(Informational.description)
+            let value =  descriptionElement.getAttribute(Informationals.description)
 
-            if(value != Informational.description && value.trim != "")
+            if(value != Informationals.description && value.trim != "")
             descriptionValue = value
 
             else
@@ -415,17 +415,17 @@ export default class NextPage
 
         if(iconElement)
         {
-            let value =  iconElement.getAttribute(Informational.icon)
+            let value =  iconElement.getAttribute(Informationals.icon)
 
-            if(value != Informational.icon && value.trim != "")
+            if(value != Informationals.icon && value.trim != "")
             iconValue = value
         }
 
         if(actionElement)
         {
-            let value =  actionElement.getAttribute(Informational.action)
+            let value =  actionElement.getAttribute(Informationals.action)
 
-            if(value != Informational.action && value.trim != "")
+            if(value != Informationals.action && value.trim != "")
             actionValue = value
 
             else
