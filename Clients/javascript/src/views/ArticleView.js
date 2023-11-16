@@ -1,5 +1,4 @@
 import Informationals from "../util/Informationals.js";
-import { DOMParser} from 'xmldom-qsa'
 
 const ArticleView = 
 {
@@ -34,23 +33,36 @@ const ArticleView =
 
     filter:function(queryResult)
     {
+
         let result = " "
-        if(queryResult instanceof Array)
+
+
+        if(Array.isArray(queryResult))
         {
-            for (let index = 0; index < queryResult.length; index++) 
-            {
-                const element = queryResult[index];
-                result += element.textContent +"<br>"
-            }
+            queryResult.forEach(element => {
+                result += this.filterOperation(element)
+            });
+        }
+        else 
+        {
+            result = this.filterOperation(queryResult)
         }
 
-        else 
-        result = queryResult.textContent + "<br>" 
+        if(result.trim() == '')
+        return false
 
-        result = result.slice(0,result.length-4).slice(0,this.limit)
-        
+        result = result.slice(0,result.length-4).slice(0,this.limit)        
         return result
+    },
+
+    filterOperation:function(element)
+    {
+        if(element && element.textContent && element.textContent.trim() != "")
+        return element.textContent+"<br>" 
+
+        return ''
     }
+
 }
 
 export default ArticleView

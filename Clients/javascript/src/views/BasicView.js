@@ -6,6 +6,7 @@ const BasicView =
     name:"basic",
     titleLimit:60,
     descriptionLimit:100,
+    
     default:function(node)
     {
         return false

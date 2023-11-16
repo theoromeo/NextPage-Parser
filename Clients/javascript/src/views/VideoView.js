@@ -36,39 +36,42 @@ const VideoView =
     {
         let result = false
 
-        if(queryResult instanceof Array)
+        if(Array.isArray(queryResult))
         {
-            for (let index = 0; index < queryResult.length; index++) 
+            queryResult.every(element => 
             {
-                const element = queryResult[index];
-                
-                let value = element.getAttribute(Informationals.video)
-                if(value != Informationals.video && value.trim() != "")
+                let value = this.filterOperation(element)
+
+                if(value)
                 {
                     result = value
-                    break
+                    return false
                 }
-            }
+            })
         }
-
         else 
         {
-            let value = queryResult.getAttribute(Informationals.video)
-            if(value != Informationals.video && value.trim() != "")
-            {
-                result = value
-            }
+            result = this.filterOperation(queryResult)
         }
 
-        if(result)
         return result
 
-        let value = queryResult.getAttribute("src")
-        if(value.trim() != "")
-        return value
+    },
 
-        return result
+    filterOperation: function(element)
+    {
+        let property = element.getAttribute(Informationals.video)
+        if(property != Informationals.video && property.trim() != "")
+        {
+            return property
+        }
 
+        let src = element.getAttribute("src")
+
+        if(src.trim() != "")
+        return src
+
+        return false
     }
 }
 

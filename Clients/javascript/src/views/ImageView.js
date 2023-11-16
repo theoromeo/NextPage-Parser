@@ -27,46 +27,49 @@ const ImageView =
     filter:function(queryResult)
     {
         let result = false
-        if(queryResult instanceof Array)
-        {
 
-        }   
-        else 
-        queryResult = [queryResult]     
-
-        if(queryResult instanceof Array)
+        if(Array.isArray(queryResult))
         {
-            queryResult.every(element =>
+            queryResult.every(element => 
             {
-                if(element.tagName != "img")
-                return true
-
-                if(element.getAttribute(Informationals.img))
+                let image = this.filterOperation(element)
+                if(image)
                 {
-
-                    let value = element.getAttribute(Informationals.img)
-                    if(value.trim() == "" || value == Informationals.img)
-                    return true
-
-                    result = value
+                    result = image
                     return false
                 }
-
-                let value = element.getAttribute('src')
-
-                if(value.trim() == "")
-                return true
-
-                result = value
-                return false
-                
-            });
+            })
+        }
+        else 
+        {
+            result = this.filterOperation(queryResult)
         }
 
-        if(!result)
+        return result
+    },
+
+    filterOperation: function(element)
+    {
+        if(element.tagName != "img")
         return false
 
-        return result
+        if(element.getAttribute(Informationals.img))
+        {
+
+            let value = element.getAttribute(Informationals.img)
+            if(value.trim() == "" || value == Informationals.img)
+            return false
+
+            return value
+        }
+
+        let value = element.getAttribute('src')
+
+        if(value.trim() == "")
+        return false
+
+        return value
+
     }
 
 }
