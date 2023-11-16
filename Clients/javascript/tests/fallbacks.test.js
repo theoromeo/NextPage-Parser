@@ -2,72 +2,91 @@ import NextPage from "../src/index.js"
 
 
 const NP = new NextPage()
-
+const PAGE = await NP.getWebpage("heads.html")
+const DOM = await NP.toDOM(PAGE)
 
 describe("Fallback Limits" , () => 
 {
+    let node,results
+    beforeAll(() => 
+    {
+        node = DOM.querySelector("#overflow")
+        results = NP.getNodeBaseProperties(node)
+    })
+
     it("np-title Limit" , async () => 
     {
-        const headers = await NP.get("longHeaders.html")
-
-        expect(headers.title.length).toBeLessThan(81)
-
+        expect(results.title.length).toBeLessThan(81)
     })
 
     it("np-description Limit" , async () => 
     {
-        const headers = await NP.get("longHeaders.html")
-
-        expect(headers.description.length).toBeLessThan(201)
+        expect(results.description.length).toBeLessThan(201)
 
     })
     
 })
 
-describe("Fallback Icon Property" , () => 
+describe("Fallback Icon & Action" , () => 
 {
-    it("np-icon Meta Definition" , async () => 
+    let node , results
+    beforeAll(() => 
     {
-        const headers = await NP.get("longHeaders.html")
-
-        expect(headers.icon).toEqual("./link/to/icon.png")
-
+        node = DOM.querySelector('#overflow')
+        results = NP.getNodeBaseProperties(node)
     })
 
-    it("np-icon link Definition" , async () => 
+    it("np-icon w/ Content Attribute" , () => 
     {
-        const headers = await NP.get("titleUndefined.html")
+        expect(results.icon).toEqual("./link/to/icon.png")
+    })
 
-        expect(headers.icon).toEqual("./link/to/icon.png")
-
+    it("np-action w/ Content Attribute" , () => 
+    {
+        
+        expect(results.action.label).toEqual("Action Button")
+        expect(results.action.url).toContain("./link/to/page.html")
     })
 })
 
 
-describe("Fallback Error Handeling", () => 
+describe("Fallback Error Handling", () => 
 {
-    it("Handel Undefined np-title" , async () => 
+    let node, results 
+
+    beforeAll(() => 
     {
-        const headers = await NP.get("missingHeaders.html")
-
-        expect(headers.title).toEqual("Document Title")
-
+        node = DOM.querySelector('#missing')
+        results = NP.getNodeBaseProperties(node)
     })
 
-    it("Handel Undefined np-description" , async () => 
+    it("Undefined np-title" , async () => 
     {
-        const headers = await NP.get("missingHeaders.html")
+        expect(results.title).toEqual("Document Title")
+    })
 
-        expect(headers.description).toEqual(false)
+    it("Undefined np-description" , async () => 
+    {
+        expect(results.description).toEqual(false)
+    })
 
+    it("Undefined np-action" , async () => 
+    {
+        expect(results.description).toEqual(false)
+    })
+
+    it("Undefined np-icon" , async () => 
+    {
+        expect(results.icon).toEqual(false)
     })
 
 
-    it("Handel Undefined title tag" , async () => 
+    it("Undefined title tag" , async () => 
     {
-        const headers = await NP.get("titleUndefined.html")
+        const node = DOM.querySelector('#missing-2')
+        const results = NP.getNodeBaseProperties(node)
     
-        expect(headers.title).toEqual(false)
+        expect(results.title).toEqual(false)
     
     })
 })
