@@ -328,7 +328,7 @@ export default class NextPage
         result = this.ViewTypes[info.type].default(node)
         
         else 
-        result = this.executeQuery(info.type,query,node,DOM)
+        result = this.executeQuery(query,node,DOM)
 
         if(result)
         result = this.ViewTypes[info.type].filter(result)
@@ -348,13 +348,12 @@ export default class NextPage
     /**
      * Runs the query string against the Node or DOM depending on query
      * 
-     * @param {String} type - View type
      * @param {String} query - Query String, "Tagged" or "Default"
      * @param {Node} node - Node to query against
      * @param {DOM} DOM - DOM to query against if global query
      * @returns {(Array|Boolean)} - Returns a list of elements or false if error
      */
-    executeQuery(type,query,node,DOM)
+    executeQuery(query,node,DOM)
     {   
         let targetNode = node;
         let activeQuery = query
