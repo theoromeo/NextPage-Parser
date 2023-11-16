@@ -6,7 +6,7 @@ import ArticleView from "./views/ArticleView.js"
 import ImageView from "./views/ImageView.js"
 import ImageGridView from "./views/ImageGridView.js"
 import QueryOperators from "./util/QueryOperators.js"
-import Base from "./util/Base.js"
+import BaseOperations from "./BaseOperations.js"
 import VideoView from "./views/VideoView.js"
 export default class NextPage
 {
@@ -81,7 +81,7 @@ export default class NextPage
         
         }
 
-        const headers = Base.getAll(DOM)
+        const headers = BaseOperations.getAll(DOM)
         
         if(!headers)
         return -5
@@ -316,7 +316,7 @@ export default class NextPage
         const query = info.query
 
         if(!query)
-        result = Base.getAll(DOM)
+        result = BaseOperations.getAll(DOM)
 
         if(typeof result == "number")
         return -3
@@ -339,7 +339,7 @@ export default class NextPage
         result = {result,...base,view:info.type}
 
 
-        result = Base.appendMissing(result,DOM)
+        result = BaseOperations.appendMissing(result,DOM)
 
         return result
     }
@@ -396,10 +396,10 @@ export default class NextPage
         return -1
 
         return {
-            title:Base.getTitle(head),
-            description:Base.getDescription(head),
-            icon:Base.getIcon(head),
-            action:Base.getAction(head),
+            title:BaseOperations.getTitle(head),
+            description:BaseOperations.getDescription(head),
+            icon:BaseOperations.getIcon(head),
+            action:BaseOperations.getAction(head),
         }
 
     }
@@ -413,10 +413,10 @@ export default class NextPage
     getNodeBaseProperties(node)
     {
         return {
-            title:Base.getTitle(node),
-            description:Base.getDescription(node),
-            icon:Base.getIcon(node),
-            action:Base.getAction(node),
+            title:BaseOperations.getTitle(node),
+            description:BaseOperations.getDescription(node),
+            icon:BaseOperations.getIcon(node),
+            action:BaseOperations.getAction(node),
         }
     }
 

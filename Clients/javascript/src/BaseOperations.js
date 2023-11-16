@@ -1,9 +1,9 @@
-import Informationals from "./Informationals.js"
+import Informationals from "./util/Informationals.js"
 /**
  * Holds Operations for retrieving base properties.
  * @constant
  */
-const Base = 
+const BaseOperations = 
 {
     titleLimit: 80,
     descriptionLimit: 200,
@@ -226,4 +226,4 @@ const Base =
 
 }
 
-export default Base
+export default BaseOperations
