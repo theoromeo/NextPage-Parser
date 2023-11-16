@@ -12,6 +12,11 @@ export default class NextPage
 {
     ViewTypes = {}
 
+    /**
+     * Create a new instance of NextPage
+     * 
+     * @constructor
+     */
     constructor()
     {
         this.ViewTypes[VideoView.name] = VideoView
@@ -21,13 +26,31 @@ export default class NextPage
         this.ViewTypes[ImageGridView.name] = ImageGridView
     }
 
-    /**
-     * Get node from webpage.
-     * 
-     * @param {URL} url - URL of webpage to retrieve.
-     * @param {String} key - Node to look for on webpage
-     * @returns 
-     */
+   /**
+    * Retrieves a nodes information from a webpage or a webpages base properties if a node key is not defined
+    * 
+    * @param {URL} url - The URL of the webpage that should be parsed
+    * @param {String} key - The name of the node that should be retrieved from the webpage
+    * @returns {(JSON|Number)} - Returns an object containing the retrieved data of the node or a negative number if error
+    * - -1 = Webpage not found
+    * - -2 = Webpage DOM conversion error 
+    * - -3 = Node not found
+    * - -4 = Retrieving node info error
+    * - -5 = Page does not contain any base properties
+    * 
+    * @async
+    * @example
+    * const NP = new NextPage()
+    * cont response = await get("https://example.com" , "main") 
+    * if(typeof response == "number")
+    * {
+    *   console.error(....)
+    * }
+    * else 
+    * {
+    *   console.log(response.title)
+    * }
+    */
     async get(url,key = null)
     {
         const webpageResponse = await this.getWebpage(url)
@@ -68,15 +91,16 @@ export default class NextPage
 
     }
 
-    /**
-     * Gets Webpage for parsing.
-     * 
-     * @param {URL} url - URL of webpage to retrieve.
-     * @returns {(String|Number)} 
-     * - HTML if webpage retrieved successfully, 
-     * - -1 if fetch error, 
-     * - -2 if connection error.
-     */
+   /**
+    * Retrieves the string representation of the URLs webpage
+    * 
+    * @param {URL} url - The url of the webpage to be retrieved
+    * @returns {(String|Number)} - Returns the string of the retrieved webpage or negative number if error
+    * - -1 = Fetch error
+    * - -2 = Request error
+    * 
+    * @async
+    */
     async getWebpage(url)
     {
         let webpageResponse = null;
@@ -101,12 +125,11 @@ export default class NextPage
     }
 
     /**
-     * Convert HTML string to DOM object
+     * Converts a string HTML webpage or node into a Node
      * 
-     * @param {String} html - String of html
-     * @returns {(Object|Number)}
-     * - Document Object
-     * - -1 if parsing error
+     * @param {String} html - HTML string  of the webpage/element to parse
+     * @returns {(Node|Number)} - Return a Node of the parsed string or negative number if error
+     * - -1 = Parsing error
      */
     toDOM(html)
     {
@@ -124,13 +147,12 @@ export default class NextPage
     }
 
     /**
-     * Gets defined node from DOM.
+     * Retrieves the node from the webpage.
      * 
-     * @param {Document} DOM - Document of parsed webpage.
-     * @param {String} key - Node lookup string for 'np-for' property.
-     * @returns {(Node|Number)}
-     * - Node if node found
-     * - -1 if node not found
+     * @param {Node} DOM - DOM webpage to retrieve information from
+     * @param {String} key - Name of Node to retrieve
+     * @returns {(Node|Number)} - Returns the Node object or negative number if error
+     * - -1 No node found
      */
     getNode(DOM,key)
     {
@@ -146,10 +168,10 @@ export default class NextPage
     }
 
     /**
-     * Remove nested defined nodes
+     * Removes child nodes defined with the np-for attribute from the passed node.
      * 
-     * @param {Node} node 
-     * @return {Node} - cleared root node
+     * @param {Node} node - Node to remove child nodes from
+     * @returns {Node} - Returns a node with removed child nodes.
      */
     removeChildNodes(node)
     {
@@ -164,13 +186,13 @@ export default class NextPage
 
 
     /**
-     * Retrieves the query string and view type defined by the node.
+     * Retrieves the view type and view query defined by the node
      * 
-     * @param {Node} node - Root node
-     * @returns {(object|Number)}
-     * - object {type,query}
-     * - -1 No view defined on node
-     * - -2 Type not valid
+     * @param {Node} node - Node to retrieves data from
+     * @returns {(JSON|Number)} - Returns a JSON object or negitive number if error
+     * - -1 = Passed argument not node type
+     * - -2 = Node does not define a view
+     * - -3 = Node defined an invalid view type or not defined
      */
     getViewInformation(node)
     {
@@ -197,10 +219,10 @@ export default class NextPage
 
 
     /**
-     * @param {String} propertyValue - string from defined np-view property 
-     * @returns {(String|Boolean)}
-     * - string if valid view type
-     * - false if invalid
+     * Parses the value of the np-view property and retrieves the view type
+     * 
+     * @param {String} propertyValue - Value defined in the np-view property 
+     * @returns {(String|Boolean)} - Returns only the view type defined or false if invalid view type
      */
     getViewType(propertyValue)
     {
@@ -222,11 +244,14 @@ export default class NextPage
 
 
     /**
-     * @param {String} propertyValue - string from defined np-view property 
-     * @param {Node} node - Root Node
-     * @returns {(String)}
-     * - String Query string
-     * - 'tagged' if node uses tags
+     * Parses the value of the np-view property and retrieves the view query
+     * 
+     * @param {String} propertyValue - Value defined in the np-view property 
+     * @param {Node} node - Node that defines the np-view property
+     * @returns {String} - Returns a string indicating the type of query to execute
+     * - "Tagged" - Informational properties defined in node
+     * - "Default" - Use default query defined by its view
+     * - Custom query string 
      */
     getViewQuery(propertyValue,node)
     {   
@@ -251,10 +276,10 @@ export default class NextPage
     }
 
     /**
-     * Returns true if node defines properties by tag
+     * Returns true if the node passed defines informational properties
      * 
-     * @param {String} type - View type
-     * @param {Node} node - Node
+     * @param {String} type - Name of view type
+     * @param {*} node - Node to validate against
      * @returns {Boolean}
      */
     isViewQueryTagged(type,node)
@@ -263,15 +288,20 @@ export default class NextPage
         if(!result)
             return false
 
-        return result
+        return true
     }
 
 
     /**
-     * @param {Object} info - object containing query and view type
-     * @param {Node} node - root node 
-     * @param {Node} DOM - Whole webpage node for custom view queries
-     * @returns {Object}
+     * Retrieves the final data and appends missing base properties
+     *  
+     * @param {JSON} info - JSON returned by getViewInformation()
+     * @param {Node} node - Node to search against
+     * @param {Node} DOM - DOM webpage to search against
+     * @returns {(JSON|Number)} - Returns JSON object containing parsed query data or negative number if error
+     * - -1 = DOM passed not valid
+     * - -2 = Node passed not valid
+     * - -3 = DOM passed does not declare any NP properties
      */
     getQueryData(info,node,DOM)
     {
@@ -315,6 +345,15 @@ export default class NextPage
     }
 
 
+    /**
+     * Runs the query string against the Node or DOM depending on query
+     * 
+     * @param {String} type - View type
+     * @param {String} query - Query String, "Tagged" or "Default"
+     * @param {Node} node - Node to query against
+     * @param {DOM} DOM - DOM to query against if global query
+     * @returns {(Array|Boolean)} - Returns a list of elements or false if error
+     */
     executeQuery(type,query,node,DOM)
     {   
         let targetNode = node;
@@ -343,6 +382,13 @@ export default class NextPage
 
     }
 
+    /**
+     * Retrieves all the base properties defined in the head of the webpage
+     * 
+     * @param {Node} DOM - DOM webpage to retrieve from
+     * @returns {(JSON|Number)} - Returns an object or negative number if error
+     * - -1 = Head property not found
+     */
     getHeadBaseProperties(DOM)
     {
         let head = DOM.querySelector('head')
@@ -358,6 +404,13 @@ export default class NextPage
         }
 
     }
+
+    /**
+     * Retrieves all the base properties defined in the node.
+     * 
+     * @param {Node} node - Node to retrieve values from
+     * @returns {JSON} - Returns JSON result
+     */
     getNodeBaseProperties(node)
     {
         return {

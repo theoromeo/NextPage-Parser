@@ -1,6 +1,6 @@
 import Informationals from "./Informationals.js"
 /**
- * Holds Operations for retrieving fallback values.
+ * Holds Operations for retrieving base properties.
  * @constant
  */
 const Base = 
