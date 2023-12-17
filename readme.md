@@ -1,4 +1,6 @@
 # <img src="./icon.png" width="120"> <br> Next Page Protocol
+![Version](https://img.shields.io/badge/version-0.9-green.svg)
+
 The **Next Page** (NP) Protocol  enables web pages to have a richer and more dynamic navigation experience, allowing them to communicate relevant information based on the page's context.
 
 Similar to Open Graph, which allows a webpage to behave like an object with static information, **Next Page** adds the ability for web pages to share information relative to each other.
