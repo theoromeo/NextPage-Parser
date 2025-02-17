@@ -1,9 +1,0 @@
-{
-  "setupFiles": [
-      "./tests/setup/mocks.js"
-    ],
-    "verbose": true,
-    "collectCoverage":true,
-    "coverageDirectory":"./tests/coverage/",
-    "coverageReporters":["html"]
-}

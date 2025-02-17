@@ -1,0 +1,5 @@
+0 = Argument Errors (Invalid input, missing parameters)
+1 = Parsing & DOM Errors (Issues related to HTML parsing and DOM operations)
+2 = Field Errors (Issues retrieving fields or properties)
+3 = Network Errors (Issues fetching pages, network failures)
+4 = Processing Errors (General errors that occur during execution)

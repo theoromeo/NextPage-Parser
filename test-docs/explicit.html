@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="np:title" content="fallback title">
+    <meta name="np:desc" content="fallback desc">
+    <meta name="np:action" content="fallback label > fallback url">
+
+    <title>Perfect Nodes - Test Doc</title>
+</head>
+<body>
+
+    <!-- basic -->
+    <article
+    np-node="primary"
+    np-view="basic">
+        <h1 np-title = "primary title ">primary  inner title</h1>
+        <p np-desc = "primary desc ">primary inner desc</p>
+    </article>
+
+
+    <!-- article -->
+     <article
+     np-node="secondary"
+     np-view="article">
+        <h1 np-title="secondary title">secondary  inner title</h1>
+        <p np-desc="secondary desc">secondary  inner desc</p>
+        <a np-action="secondary label > secondary url" href="secondary inner url ">secondary inner label</a>
+     </article>
+
+
+    <!-- gallery -->
+     <article
+     np-node="side"
+     np-view="gallery">
+        <h1 np-title="side title">side  inner title</h1>
+        <p np-desc="side desc">side  inner desc</p>
+        <div>
+            <img np-img="img1" src="src_img1" alt="">
+            <img np-img="img2" src="src_img2" alt="">
+            <img np-img="img3" src="src_img3" alt="">
+        </div>
+     </article>
+    
+</body>
+</html>

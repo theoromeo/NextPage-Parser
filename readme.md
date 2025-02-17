@@ -1,379 +1,236 @@
-# <img src="./icon.png" width="120"> <br> Next Page Protocol
-![Version](https://img.shields.io/badge/version-0.9-green.svg)
+# NextPage Docs
+![Version](https://img.shields.io/badge/version-0.5.0--beta-yellow)
 
-The **Next Page** (NP) Protocol  enables web pages to have a richer and more dynamic navigation experience, allowing them to communicate relevant information based on the page's context.
+NextPage allows dense webpages to share important points of information to users through an interface without the users needing to leave the current webpage. 
 
-Similar to Open Graph, which allows a webpage to behave like an object with static information, **Next Page** adds the ability for web pages to share information relative to each other.
+NextPage helps users avoid `tab hopping`, keeping them focused on understanding information in the desired context.
 
-Using a client application that implements NP, such as `mously.js` for the web, enables webpages to use NP Features.
+Webpages can become NextPage-enabled by defining `NextPage nodes` directly in the HTML. This ensures that only publicly available information is accessible and enables querying other NextPage-enabled pages for relevant content.
 
-## Card
-Cards are the final result of a request to a NP defined webpage. It represents the different sections returned by the request
+## Quick Start
+This quick start guide will walk you through creating your first NextPage Node and understanding the overview of all the components and how they work together.
 
-#### Sections:
-> 📍 **NOTE:** <br>How card sections are displayed is determined by the client you use.
-
-* `Title` - Describes the title for the response
-* `Description` - Describes the description for the response
-* `icon` - Describes the icon for the response
-* `Action` - Describes the action button and its link
-* `View` - Describes the view for the response and its results
-
-
-## Base Meta Properties
-Base properties allow you to set values globally for a page. They also act as fallbacks to [nodes](#nodes) that don't define their own base properties *(Talk about nodes in a later section)*.
-
-To make a webpage Next Page compatible, at a minimum, you will need to define some basic base properties using meta tags.
-
-- `np-title` - Title for the view.
-- `np-description` - Description for the view
-
-## Defining base properties
-Base properties are defined in the head of the page using meta tags. To define the basic `np-title` & `np-description`:
+### Fallbacks
+To make a webpage NextPage-enabled at the minimum requires defining `2 NextPage meta tags` in the head of your html document:
 
 ```html
-<head>
-    ...
-    <meta name="np-title" content="Global Title For View">
-    <meta name="np-description" content="Global Description For View">
-    ...
-</head>
+<meta name="np:title" content="...">
+<meta name="np:description" content="...">
 ```
+Meta tags defined in the head are called `"fallbacks"` and will be used to `"patch"` any `fields` not defined in a queried `node`.
 
-## List Of Base Properties
-| Base Property   |      type      |
-|-----------------|:--------------:|
-| np-title        |     String     |
-| np-description  |     String     |
-| np-action       |  Label > URL   |
-| np-icon         |     URL        |
-
-## Description Of Base Properties
-- `np-title` - Defines the title for the card
-- `np-description` - defines the description for the card
-- `np-action` - Defines an action button for the card and a link 
-- `np-icon` - Defines the icon for the card
-
-### Icon Fallback
-If a `np-icon` property is not defined in the head np will fallback to the `"<link rel="icon" ... >"`.
-
-## Views
-Next Page uses views as the way of displaying information to a client.
-
-> 📍 **NOTE:** <br>
-How views are implemented depends on the client you use.
-
-### View Types
-Views are elements that display information to a client in a certain layout.
-
-- `basic` - Contains a title, description, and icon.
-- `article` - Contains a `basic view` + 1 to 3 paragraphs.
-- `image` - Contains a `basic view` + 1 image.
-- `image.grid` - Contains a `basic view` + 2 to 6 images.
-- `video` - Contains a `basic view` + 1 video.
-
-An element in the body that declares an NP attribute is called a [node](#nodes). An element that declares an np attribute without the `np-for` attribute is an invalid node and will need the `np-for` attribute to make it valid. We'll cover this in the [next section](#nodes).
-
-### View Queries
-View queries are the way views look for their data in a node.
-
-By default, views will look at the children of their element to find their data.
-
-#### Default view queries
-- article - will query for `"Element > p"` and retrieve the first 300 characters.
-
-- image - will query for `"Element > img"` and retrieve the first instance.
-
-- image.grid - will query for `"Element > img"` and retrieve the first 6 instances. if only one image is found, the `image.grid view` will invoke the `image view`.
-
-- video - will query for `"Element > video"` and retrieve the first instance.
-
-- basic - Will look for `Information Properties` to find its data; if no property is defined in the node, the head properties are used.
-
-
-#### Defined view queries
-If you define [informational properties](#informational-properties) inside the node but outside its children nodes.
-
-- article - will query for `"Element [np-p]"` and retrieve the first 300 characters.
-
-- image - will query for `"Element [np-img]"` and retrieve the first instance.
-
-- image.grid - will query for `"Element [np-img]"` and retrieve the first 6 instances. if only one image is found, the `image.grid view` will invoke the `image view`.
-
-- video - will query for `"Element [np-video]"` and retrieve the first instance.
-
-- basic - Will look for [Information Properties](#informational-properties) to find its data; if no property is defined in the node, the head properties are used.
-
-
-#### Custom view queries
-Custom queries enable you to exert greater control over the retrieval of view data using `CSS queries`.
-
-**Local Queries** <br>
-Local queries enable you to select data within the declared node by using the `>` (local operator) followed by your query after the view type in the `np-view` property as follows:
+### Nodes
+Nodes represents the object that is returned from a query. To create a node you must define the `np-node attribute` inside an element in the body of the html.
 
 ```html
-<div np-view="{view type} > {query}"></div>
+<article np-node="primary">
+    <h1>John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
+    <p>
+      John Mayer is a Grammy-winning singer-songwriter and guitarist known for his soulful music and exceptional guitar skills. With 7 Grammy Awards and numerous chart-topping albums, he's captivated audiences worldwide with hits like "Gravity" and "Slow Dancing in a Burning Room."
+    </p>
+</article>
 ```
-**Example Defining a local query:**
+The `"primary"` value defined in `np-node` denotes the `level of granularity` the node represents.
+
+### Defining Field Attributes
+Field attributes represents the information the node will contain. These fields will be used in the different sections of the interface shown to the client.
+
+Field attributes can be defined in 2 ways, `explicitly` and `implicitly`. This example shows using `explicitly defined field properties` `np-title` and `np-description` where the value of the attribute will be used.
+
 ```html
 <article 
-    np-for="fender"
-    np-view="image.gird > a > img">
-
-    <h1>John Mayer W/ Fender</h1>
-    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
-
-    <a href="./gallery/johnmayer" class="img">
-        <img src="./img/jm_1.jpg" alt="johnmayer_1">
-    </a>
-     <a href="./gallery/johnmayer" class="img">
-        <img src="./img/jm_2.jpg" alt="johnmayer_2">
-    </a>
-     <a href="./gallery/johnmayer" class="img">
-        <img src="./img/jm_3.jpg" alt="johnmayer_3">
-    </a>
+    np-node="primary"
+    np-title="John Mayer: Grammy-Winning Music Icon"
+    np-description="John Mayer, a Grammy-winning guitarist and singer, is known for soulful hits like “Gravity” and “Slow Dancing in a Burning Room.">
+        <h1>John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
+        <p>
+          John Mayer is a Grammy-winning singer-songwriter and guitarist known for his soulful music and exceptional guitar skills. With 7 Grammy Awards and numerous chart-topping albums, he's captivated audiences worldwide with hits like "Gravity" and "Slow Dancing in a Burning Room."
+        </p>
 </article>
 ```
 
-This will define an `image.grid` view and query its node with `"a > img"`
 
-**Global Queries** <br>
-Global queries enable you to select data outside the declared node by using the `>>`(global operator), followed by your query after the view type as follows:
+### Views
+Views describe how the node should be shown to the client. Depending on the view, it will also required using `specific Field attributes` and can be defined `implicitly` or `explicitly`.
 
-```html
-<div np-view="{view type} >> {query}"></div>
-```
-**Example Defining a global query:**
+In this example we will `explicitly define` the most basic view called `"basic"` using the `np-view` attribute, that only requires defining `np-title` and `np-description` field attribute.
 
 ```html
 <article 
-    np-for="fender"
-    np-view="image.gird >> .aside > .fender-gallery > img">
+    np-node="primary"
+    np-view="basic"
+    np-title="John Mayer: Grammy-Winning Music Icon"
+    np-description="John Mayer, a Grammy-winning guitarist and singer, is known for soulful hits like “Gravity” and “Slow Dancing in a Burning Room.">
+        <h1>John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
+        <p>
+          John Mayer is a Grammy-winning singer-songwriter and guitarist known for his soulful music and exceptional guitar skills. With 7 Grammy Awards and numerous chart-topping albums, he's captivated audiences worldwide with hits like "Gravity" and "Slow Dancing in a Burning Room."
+        </p>
+</article>
+```
+
+### Done
+Congratulations, You've created your first NextPage-enabled webpage. Now when you query the webpage using the `NextPage Client` from another page it will display a `basic view` with your set `title` and `description`.
+
+## Fields
+Fields represents the different data a node can contain and are used in the different sections of the interface shown to the client.
+
+| Field        | Limit                      | Structure           |
+|--------------|----------------------------|---------------------|
+| `title`      | 65 characters              | String              |
+| `description`| 120 characters             | String              |
+| `article`    | 200 characters             | string              |
+| `image`      | 1 image                    | url                 |
+| `action`     | 30 characters for label    | "{label} > {url}"   |
+
+### Header Fields
+When defining fields as fallbacks within the head tag, it should be appended with the `np:` namespace.
+
+```html
+<meta name="np:{field}" content="up to 48 characters">
+<!-- ie -->
+<meta name="np:title" content="up to 48 characters">
+```
+
+### Node Fields
+When defining fields as part of a node it is declared by appending `"np-"` to the field name as a attribute.
+
+```html
+<article 
+    np-node="primary"
+    np-title="John Mayer: Grammy-Winning Music Icon">  <!-- np-{field} -->
     ...
 </article>
 ```
 
-This will search `.aside > .fender-gallery > img"` against the whole document.
+## Fallbacks
+Fallbacks allow you to define `default` values for fields that can be used as `fallbacks` for when nodes don't define specific field. 
 
+These fallbacks are also used to build a `default` node for when a node is queried and not found.
 
-### Retrieving Tags for Views
+You can use fallbacks to define a "global default node" for the whole page, this will be used as the `last resort node` or when a NextPage-enabled webpage is queried without defining a node.
 
-When declaring a custom view query, each view type searches for the first `n` instances of its valid element.
-
-| View               | Tags                           | 
-|------------------|:---------------------------------|
-| `basic`      | Utilizes only informational properties  | 
-| `article`    | First instance of any element with inner text or `np-p` property |
-| `image`      | First instance of an `img` tag  or `np-img` property|
-| `image.grid` | First 6 instances of `img` tags or `np-img` property |
-| `video` | First instances of `video` tag or `np-video` property |
-
-
-### Query Priority
-1. Custom view query
-2. Defined view query
-3. Default view query
-
+```html
+<meta name="np:title" content="...">
+<meta name="np:description" content=" ...">
+<meta name="np:action" content=" 'label' > 'url' ">
+```
 
 ## Nodes
-Nodes are elements defined by the `np-for` attribute and act as a type of `key` or `id` to a client request.
-
-#### About the np-for attribute
->Values for the `np-for` lookup are case-insensitive.
-
->`np-for` values can only contain `1 key`, and spaces are not allowed.
-
-### Defining a few Nodes
-Let's imagine we are on a page of an artist encyclopedia-type website that contains information about John Mayer (let's call it `Page:A`).
-
-On the page, there is a section on the different guitar brands he has used and some information relative to that brand and John Mayer.
-
-We define the nodes using `np-for` and its `view`.
+Nodes represents the objects that are returned from a query. To create a node you must define the `np-node attribute` inside an element in the body of the html.
 
 ```html
-<main>
-    <h1>Guitar brands used by John Mayer</h1>
-
-    <article 
-    np-for="fender"
-    np-view="image.grid">
-        <img src="./img/jm_1.jpg" alt="jm_1">
-        <img src="./img/jm_2.jpg" alt="jm_2">
-        <img src="./img/jm_3.jpg" alt="jm_3">
-    </article>
-
-    <article 
-    np-for="Gibson"
-    np-view="basic">
-
+<article np-node="primary">
     ...
-    </article>
+</article>
+```
+### Data Granularity
+`np-node` can declare one of 5 `predefined` values that describe the importance of the data the node represents.
 
-    <article 
-    np-for="PSG"
-    np-view="article">
+* `primary`: The core information about the subject of the page.
 
+* `secondary`: Nuanced or extended information about the subject of the page.
+
+* `tertiary`: Loosely related or adjacent information about the subject.
+
+* `important`: Represents an important note on the data, but not necessarily the data itself. This is usually temporary data and will revert to `"primary"` if queried but not explicitly defined.
+
+* `warning`: Describes cautionary messages, such as warnings and errors related to the subject of the page. This is typically a temporary node and will result in `null` if queried but not explicitly defined.
+
+### Custom Granularity
+You can also define your own node values which will act as IDs that then can be queried by clients the same way as the predefined values. 
+
+If a client queries a custom node and it's not found, NextPage will look for the `primary node` and if the `primary node` is not found, the client will use the fallback default node.
+
+
+### Defining Fields Attribute
+#### `Explicitly Defined `
+Explicitly defined field attribute use the values within its definition as the values for the field. This allows nodes to contain different or more curated data for the node than what shows up on the webpage, allowing for more control.
+
+```html
+<article np-node="primary">
+    <h1 np-title="John Mayer: Grammy-Winning Music Icon">John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
     ...
-    </article>
-</main>
-```
+</article>
 
-#### Client Requests
-Now let's imagine we are on the page of another website that sells Fender guitars (let's call it `Page:B`), and it references the `fender` key on `Page:A`. 
-
-Without the user needing to click on a different website to get information, a `grid view` will display on the current page with an image grid of guitars used by John Mayer.
-
-Here is the list of tags that will be retrieved client-side:
-Information from the head.
-
-```html
-<meta name="np-description" ...>
-<meta name="np-title" ...>
-<link rel="icon" ... >
-```
-
-Information from the node
-
-```html
-<article np-view="image.grid" .../>
-3[img]
-```
-
-### Declaring Base Properties
-Base properties can be defined in nodes to customize the card for its perticular response.
-
-For the following example we will define base property values in the attribute and will be covered more in-depth in the [Informational Properties](#informational-properties) Section.
-
-```html
+<!-- Both declarations are valid -->
 <article 
-    np-for="fender"
-    np-view="image.grid">
-        <h1 np-title="John Mayer's Fenders"> List of Fender Images</h1>
-        <h1 np-icon="John Mayer's Fenders"> List of Fender Images</h1>
-
-        <img src="./img/jm_1.jpg" alt="jm_1">
-        <img src="./img/jm_2.jpg" alt="jm_2">
-        <img src="./img/jm_3.jpg" alt="jm_3">
-
-        <a np-action="Buy Now > http://www.fender.com/buy/item?009343">Buy a Fender guitar</a>
+    np-node="primary"
+    np-title="John Mayer: Grammy-Winning Music Icon">
+    <h1 >John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
+    ...
 </article>
 ```
 
+#### `Implicitly Defined `
+Implicit definitions will use the values within the `innertext` of the element it's declared in as its value. This can be used for data consistency, but keep in mind the character limits of the `fields` you decide to use.
 
-## Informational Properties
-Informational properties allow you to have more control over the response data of views.
-
-Maybe you want summarized data to display instead of the default paragraph in the node, or you want a specific image to show up in the response; you can do that with informational properties.
-
-### Informational Properties
-- `np-p` - define a paragraph for the node <br>
-When all declarations for the nodes are added, it may be a maximum length of 300 characters.
-
-- `np-img` - define an image for the node <br>
-String URL
-
-- `np-action` - define a link for the node <br>
-String URL
-
-- `np-icon` - define an icon for the node <br>
-String URL
-
-- `np-description` - define a description for the node<br>
-Up to 100 characters.
-- `np-title` - define a title for the node <br>
-Up to 35 characters
-
-- `np-video` - define a video for the node <br>
-
-
-| Properties        |      Format   | 
-|-------------------|:--------------|
-| `np-p`            | String        | 
-| `np-img`          | URL           |
-| `np-action`       | Label > URL   |
-| `np-icon`         | URL           |
-| `np-description`  | String        |
-| `np-title`        | String        |
-| `np-video`        | URL           |
-
-
-> ❕ **Note:**<br>
-Nodes only invoke informational properties where the property's immediate parent node is itself.
-
-### Defining Informational Properties
-
-Example of defining images with the informational Property `np-img`
 ```html
-<article 
-    np-for="fender"
-    np-view="image">
-
-    <h1>John Mayer W/ Fender</h1>
-    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
-
-    <a href="./gallery/johnmayer" class="img">
-
-        <img np-img="./img/jm_1.jpg" 
-             src="./img/jm_1.jpg" 
-             alt="jm_1">
-    </a>
+<article np-node="primary">
+    <h1 np-title>John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
+    ...
 </article>
 ```
 
-Adding a custom title & description to the node
-```html
-<article 
-    np-for="fender"
-    np-view="image"
-    np-title="John Mayer with a Stratocaster"
-    np-description="John Mayer playing Stratocaster at the Manhattan stadium.">
+Some Implicitly defined field properties only work with specific elements:
+| Field         | Tag               | Details                                                        |
+|---------------|-------------------|----------------------------------------------------------------|
+| `title`, `description`, `article` | Any tag | Can use any HTML tag as its value                    |
+| `img`         | `<img>`           | Will use the `src` attribute as its value                      |
+| `action`      | `<a>`             | Will use the `href` attribute and the `innertext` as its value |
 
-    <h1>John Mayer W/ Fender</h1>
-    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
 
-    <a href="./gallery/johnmayer" class="img">
+## View Types
+View Types represent the type of view the node appears as to the client and is declared using the `np-view` attribute when defined in a node and `np:view` when defined as a fallback.
 
-        <img np-img="./img/jm_1.jpg" 
-             src="./img/jm_1.jpg" 
-             alt="jm_1">
-    </a>
-</article>
-```
+| Field     | Contains                                   |
+|-----------|-------------------------------------------|
+| `basic`   | Contains the `title`, `description` and `optional action button`         |
+| `article` | Contains the `title`, `description` , `optional action button`  and `article` |
+| `gallery` | Defines the `title`, `description`, `optional action button` and up to `4 images` |
 
-### Properties as tags
-You can add informational properties to elements without defining their value, and the element's value will be used.
 
-For Example with `np-title`, `np-description`, and `np-img`
+### Implicit View Types
+NextPage has the ability to detect the view type by the Field Properties defined in the node.
+
+By defining at least one `np-image` field attribute within the node, NextPage will know to define the node view as `gallery`.
 
 ```html
 <article 
-    np-for="fender"
-    np-view="image">
+    np-node="primary"
+    np-title="John Mayer: Grammy-Winning Music Icon"
+    np-description="John Mayer, a Grammy-winning guitarist and singer, is known for soulful hits like “Gravity” and “Slow Dancing in a Burning Room.">
 
-    <h1 np-title>John Mayer W/ Fender</h1>
-    <p np-description>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dolorem et rem hic.</p>
-
-
-    <a href="./gallery/johnmayer" class="img">
-        <img np-img src="./img/jm_1jpg" alt="jm_1">
-    </a>
+        <h1>John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
+        <p>
+          John Mayer is a Grammy-winning singer-songwriter and guitarist known for his soulful music and exceptional guitar skills. With 7 Grammy Awards and numerous chart-topping albums, he's captivated audiences worldwide with hits like "Gravity" and "Slow Dancing in a Burning Room."
+        </p>
+        <img np-image src="john-mayer.jpg" alt="John Mayer performing live" />       <!-- implicitly defining an image -->
+        <img np-image src="john-mayer-grammy.jpg" alt="John Mayer holding grammy" /> <!-- implicitly defining an image -->
 </article>
 ```
 
-### Property Priority
+### Explicit View Types
+Explicit view types allow you to better control the type of view the node should display. 
 
-1. Properties defined `on` the root node (in the same element where the node is declared) will have the highest priority.
+When defining a node explicitly as `basic`, even if a node defined the field property `np-img` it will be ignored.
 
-2. Properties defined `in` the root but outside any other node.
+```html
+<article 
+    np-node="primary"
+    np-view="basic"
+    np-title="John Mayer: Grammy-Winning Music Icon"
+    np-description="John Mayer, a Grammy-winning guitarist and singer, is known for soulful hits like “Gravity” and “Slow Dancing in a Burning Room.">
 
+        <h1>John Mayer: Grammy-Winning Music Icon and Guitar Virtuoso</h1>
+        <p>
+          John Mayer is a Grammy-winning singer-songwriter and guitarist known for his soulful music and exceptional guitar skills. With 7 Grammy Awards and numerous chart-topping albums, he's captivated audiences worldwide with hits like "Gravity" and "Slow Dancing in a Burning Room."
+        </p>
+        <img np-image src="john-mayer.jpg" alt="John Mayer performing live" />       <!-- ignored -->
+        <img np-image src="john-mayer-grammy.jpg" alt="John Mayer holding grammy" /> <!-- ignored -->
+</article>
+```
 
-## Implementation
-We provide parsers in different languages and hope you build cool tools with them! 
+## Client Implementation
+A standardized NextPage client implementation is available and demonstrates how to query NextPage-enabled webpages from the client side.
 
-- `NPP w/ Javascript`
-- `NPP w/ PHP` <sub>(NA)</sub>
-- `NPP Java` <sub>(NA)</sub>
-- `NPP C++` <sub>(NA)</sub>
-
-### Recommended NPP web Client
-- `Mously.js` <sub>(NA)</sub>
+<!-- Link to client -->
