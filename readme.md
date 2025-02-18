@@ -231,6 +231,5 @@ When defining a node explicitly as `basic`, even if a node defined the field pro
 ```
 
 ## Client Implementation
-A standardized NextPage client implementation is available and demonstrates how to query NextPage-enabled webpages from the client side.
+A standardized [NextPage client](https://github.com/theoromeo/NextPage-Client) implementation is available and demonstrates how to query NextPage-enabled webpages from the client side.
 
-<!-- Link to client -->
